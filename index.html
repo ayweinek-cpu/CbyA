@@ -1606,6 +1606,15 @@ function saveRecipe(){
 const PREHAB=[{n:'Banded ER',s:'3×15/Seite'},{n:'Banded IR',s:'3×15/Seite'},{n:'Y-T-W',s:'3×10'},{n:'Skapula PU',s:'2×10'},{n:'Face Pulls',s:'3×20'},{n:'Sleeper Stretch',s:'2×45s'}];
 let phSt=L('ph3',PREHAB.map(()=>false));
 if(phSt.length!==PREHAB.length)phSt=PREHAB.map(()=>false);
+function updatePrehabUI(){
+  const done=phSt.filter(Boolean).length;
+  const total=phSt.length;
+  const c=document.getElementById('prehab-cnt');
+  if(c)c.textContent=done+'/'+total;
+  const dp=document.getElementById('dash-prehab');
+  if(dp){dp.textContent=done===total?'&#10003; Komplett':done+'/'+total;dp.style.color=done===total?'var(--lime)':'var(--mu2)';}
+}
+
 function initPrehab(){
   const el=document.getElementById('prehab-list');if(!el)return;
   const wk=getTrackerWeek();

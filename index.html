@@ -495,6 +495,7 @@ body.compact .main{padding:1rem 1.25rem 2rem;}
       <div class="wn-block" id="tn-block"></div>
       <div class="wn-week" id="tn-week"></div>
       <div class="wn-date" id="tn-date"></div>
+      <div style="font-size:9px;color:var(--mu);margin-top:2px;opacity:.8;" id="tn-focus"></div>
     </div>
     <button class="wn-btn" onclick="changeWeek(1)">▶</button>
   </div>
@@ -775,7 +776,7 @@ body.compact .main{padding:1rem 1.25rem 2rem;}
 <script>
 // ===== DATA =====
 const PROGRAM = {"startDate": "2026-03-23", "blocks": [{"id": 1, "name": "Block 1 \u2014 Fundament", "weeks": 10, "theme": "Schulter schonen \u00b7 Aerob-Base \u00b7 OL-Technik", "color": "#c8f060", "squat_pct": [72, 74, 76, 78, 80, 82, 60, 84, 86, 88], "press_pct": [62, 64, 66, 68, 70, 72, 55, 74, 76, 78], "dl_pct": [70, 72, 74, 76, 78, 80, 60, 82, 84, 86], "ol_pct": [65, 67, 70, 72, 75, 77, 60, 80, 82, 85]}, {"id": 2, "name": "Block 2 \u2014 Kraft", "weeks": 12, "theme": "OL-Load \u00b7 Gymnastics \u00b7 Strength Peak", "color": "#60d4f0", "squat_pct": [80, 82, 84, 86, 88, 90, 70, 90, 92, 94, 95, 85], "press_pct": [75, 77, 79, 81, 83, 85, 65, 85, 87, 89, 90, 80], "dl_pct": [82, 84, 86, 88, 90, 92, 70, 90, 92, 94, 95, 85], "ol_pct": [80, 82, 84, 86, 88, 90, 70, 88, 90, 92, 94, 86]}, {"id": 3, "name": "Block 3 \u2014 Spezialisierung", "weeks": 12, "theme": "WOD-Kapazit\u00e4t \u00b7 Mixed Modal \u00b7 Amsterdam-Prep", "color": "#f0a840", "squat_pct": [78, 78, 80, 80, 82, 82, 65, 80, 80, 78, 75, 70], "press_pct": [75, 75, 77, 77, 79, 79, 62, 79, 79, 77, 74, 68], "dl_pct": [80, 80, 82, 82, 84, 84, 68, 84, 84, 82, 78, 72], "ol_pct": [82, 84, 86, 88, 90, 92, 70, 90, 92, 88, 84, 78]}, {"id": 4, "name": "Block 4 \u2014 Peaking", "weeks": 10, "theme": "Open-Prep \u00b7 Taper \u00b7 CrossFit 2027", "color": "#f06070", "squat_pct": [78, 80, 82, 84, 85, 86, 65, 82, 75, 65], "press_pct": [75, 77, 79, 81, 82, 83, 62, 79, 72, 62], "dl_pct": [80, 82, 84, 86, 87, 88, 68, 84, 76, 65], "ol_pct": [80, 82, 84, 86, 87, 85, 65, 82, 75, 65]}]};
-const TEMPLATES = [[{"name": "Mo", "label": "Kraft + OL", "sections": [{"type": "prehab", "title": "Schulter Prehab", "details": ["Banded ER/IR 3×15", "Y-T-W 3×10", "Face Pulls 3×20", "Skapula PU 2×10"]}, {"type": "ol", "title": "Olympic Lifting", "details": ["Snatch Deadlift 4×4 @{ol}% (~{snatch_dl}kg) — kein Overhead", "Snatch Pull 3×3 @{ol_low}% — bis Hüfte, kein Turnover"], "note": "Schulter: kein OHS, kein Overhead-Stress"}, {"type": "strength", "title": "Kraft", "details": ["Back Squat 4×6 @{sq}% (~{bsq}kg) Tempo 3-1-X", "Strict Press 3×5 @{pr}% (~{press}kg) schmerzfrei · nicht bis Failure"]}, {"type": "wod", "title": "MetCon — Aerobic Endurance Z2-3", "details": ["3 Rounds @ conversational pace:", "400m Run (nasal breathing)", "8 Strict Pull-ups", "12 DB Romanian Deadlift @17.5kg", "10 Box Step-ups @61cm", "— rest as needed between rounds —"], "note": "RPE 5-6 · stays aerobic · Wk3+: PU→10, DB→20kg · nasal breathing on run = Zone 2 check"}], "zone": "Z2–3 · RPE 5–6", "wod_weeks": [{"title": "3 Rounds For Time — Aerobic Pace", "lines": ["400m Run (nasal breathing)", "8 Strict Pull-ups", "12 DB RDL @17.5kg", "10 Box Step-ups @61cm", "Rest as needed"], "note": "RPE 5-6 · nasal breathing = Z2 check · no kipping"}, {"title": "AMRAP 18 — Sustain Z2", "lines": ["5 Strict Pull-ups", "10 DB Goblet Squat @20kg", "15 Ab-Mat Sit-ups", "200m Run"], "note": "Pace muss in Runde 1 = Runde 7 sein · Z2 Aerobic Endurance"}, {"title": "4 Rounds — Steady State", "lines": ["300m Row", "8 Strict Pull-ups", "10 DB Romanian DL @20kg", "12 Wallballs @9kg"], "note": "RPE 5-6 · erhöhtes Volumen ab Wk3 · 90s Rest zwischen Rounds"}, {"title": "3 Rounds + Buy-In", "lines": ["Buy-In: 800m Run", "Then 3 Rounds:", "10 Strict Pull-ups", "15 KB Swings @20kg", "20 Box Step-ups @61cm"], "note": "Z2-3 · RPE 6 · Buy-In setzt Pace für alles danach"}, {"title": "Chipper — Aerobic Engine", "lines": ["For Time:", "600m Run", "30 Strict Pull-ups", "40 DB Walking Lunges @17.5kg", "600m Run", "20 Box Jumps @61cm"], "note": "RPE 6 · split PU in manageable sets · all aerobic"}, {"title": "5 Rounds — Volume Peak", "lines": ["5 Rounds:", "200m Run", "6 Strict Pull-ups", "8 DB RDL @22.5kg", "10 Wallballs @9kg", "Rest 60s"], "note": "RPE 6 · highest aerobic volume of Block 1 · controlled"}, {"title": "Deload — Easy Movement", "lines": ["3 Rounds (60% effort):", "300m Run", "5 Strict Pull-ups", "8 DB Goblet Squat @15kg", "Rest as needed"], "note": "Deload — 60% Volumen · aktive Erholung · keine Bestleistung"}, {"title": "AMRAP 20 — Aerobic Test", "lines": ["AMRAP 20:", "400m Run", "8 Strict Pull-ups", "12 KB Swings @24kg", "12 Box Jumps @61cm"], "note": "RPE 6-7 · test aerobic capacity · nasal breathing on run"}, {"title": "Long Chipper — Peak Aerobic", "lines": ["For Time:", "1000m Row", "40 Strict Pull-ups (partition freely)", "50 DB Walking Lunges @20kg", "1000m Run"], "note": "RPE 7 · aerobic peak · 30-35 min target"}, {"title": "4 Rounds — Transition Prep", "lines": ["4 Rounds:", "400m Run", "10 C2B Pull-ups (or Strict PU)", "15 Wallballs @9kg", "10 Box Jumps @61cm"], "note": "Block 1 final week · preparing for Block 2 intensity"}]}, {"name": "Di", "label": "Z2 + Gymnastics", "sections": [{"type": "cardio", "title": "Z2 Ausdauer", "details": ["Lauf 35 min @conversational pace (~5:50–6:20/km)"], "note": "Kein Stress · du solltest problemlos sprechen können"}, {"type": "gymnastics", "title": "Strict Gymnastics", "details": ["Strict Pull-ups 4×5 (vollständige Streckung, 2s oben)", "Ring Rows 3×10 (Körper so horizontal wie möglich)", "Banded Pull-Aparts 3×15 (Schulter-Aktivierung)"], "note": "Kein Kipping · kein Dips Wk 1–4 (Schulter schonen)"}, {"type": "cardio", "title": "Z2 Ausdauer — Aerobic Base", "details": ["35 min Easy Run @5:50-6:20/km", "Nasal breathing the entire time", "If mouth-breathing: slow down immediately", "Heart rate: 130-145 bpm target", "Wk3+: 40 min · Wk5+: 45 min"], "note": "Dennis Obst / HCF: Z2 so viel wie möglich · ist das wichtigste Training der Woche"}, {"type": "gymnastics", "title": "Strict Gymnastics Skill", "details": ["A) Strict Pull-ups: 4×5 (2s hold at top)", "B) Ring Rows: 3×10 (body horizontal)", "C) Banded Pull-Aparts: 3×15", "D) Dead Bug: 3×10/side"], "note": "No kipping · shoulder safe · quality over quantity"}], "zone": "Z1–2 · RPE 3–4"}, {"name": "Mi", "label": "Front Squat + DL", "sections": [{"type": "prehab", "title": "Prehab", "details": ["Schulter-Routine 10 min"]}, {"type": "strength", "title": "Kraft", "details": ["Front Squat 4×5 @{sq_low}% (~{fsq}kg)", "Deadlift Deadstop 4×5 @{dl}% (~{dead}kg)", "Romanian DL 3×8 @55%"]}, {"type": "wod", "title": "Wk1-2: Aerobic WOD / Wk3+: Threshold Z4-5", "details": ["WK 1-2 — AMRAP 20 @aerobic pace:", "500m Row · 12 Wallballs 9kg · 10 Box Jumps 61cm", "—", "WK 3+ — Threshold Intervals (CompTrain style):", "3× AMRAP 3min / 2min rest", "AMRAP: 5 C2B + 7 Wallballs 9kg + 9 cal Bike", "— or — 3× 3min Row @2:00/500m / 2min rest"], "note": "Wk3+: Z4-5 RPE 8-9 · 48h recovery nach diesem Training · echte Threshold-Arbeit"}], "zone": "Z2–3 → Z4–5 ab Wk3 · RPE 5–9", "wod_weeks": [{"title": "AMRAP 20 — Aerobic Base (Z2-3)", "lines": ["500m Row", "12 Wallballs @9kg", "10 Box Jumps @61cm", "10 Ab-Mat Sit-ups"], "note": "Wk1: Z2-3 nur aerob · kein Threshold noch"}, {"title": "3 Rounds + Accessory (Z2-3)", "lines": ["500m Row", "15 Wallballs @9kg", "12 Box Step-ups", "10 V-Ups", "Rest 2 min"], "note": "Wk2: Z2-3 · RPE 5-6 · Aufbau für Threshold ab Wk3"}, {"title": "Threshold Intervals — FIRST PUSH (Z4-5)", "lines": ["3× AMRAP 3min / 2min Rest:", "AMRAP: 5 C2B Pull-ups + 8 Wallballs @9kg + 10 cal Row", "— Score: Rounds + Reps each AMRAP —"], "note": "RPE 8-9 · echtes Threshold · Runden sollen gleich bleiben · 48h Recovery danach"}, {"title": "Rowing Threshold — Z4-5", "lines": ["3× 3min Row @2:00/500m / 2min Rest", "Then: 3× 1min Max Cal Bike / 1min Rest"], "note": "RPE 8-9 · mono-structural threshold · pace muss gleich bleiben"}, {"title": "CF Intervals — Couplet Z4-5", "lines": ["4× AMRAP 3min / 2min Rest:", "AMRAP: 7 Toes-to-Bar + 9 DB Thrusters @10kg", "— Score: total reps —"], "note": "RPE 8-9 · Gymnastics + DB · core CrossFit Threshold"}, {"title": "Mixed Modal Threshold Z4-5", "lines": ["4× AMRAP 2:30 / 1:30 Rest:", "AMRAP: 200m Run + 8 Wallballs @9kg + 5 Strict PU", "— Score: rounds each interval —"], "note": "RPE 8-9 · run + gym + WB · hardest threshold of Block 1"}, {"title": "Deload — Easy AMRAP (Z2)", "lines": ["AMRAP 15 (60% effort):", "400m Row", "10 Wallballs @7kg", "10 Box Step-ups"], "note": "Deload Woche · Z2 nur · keine Threshold-Arbeit"}, {"title": "Threshold Retest — 3min AMRAPs", "lines": ["4× AMRAP 3min / 2min Rest:", "AMRAP: 5 C2B + 8 WB @9kg + 10 cal Row", "Compare to Wk3 score!"], "note": "Direkter Vergleich zu Wk3 · zeigt Adaptation · RPE 8-9"}, {"title": "Long Threshold — 4min Intervals", "lines": ["3× AMRAP 4min / 2min Rest:", "AMRAP: 400m Run + 10 Wallballs @9kg + 10 Toes-to-Bar", "— Score: rounds —"], "note": "RPE 8-9 · längste Threshold-Intervalle Block 1 · pacing crucial"}, {"title": "Block 1 Threshold Final", "lines": ["5× AMRAP 2min / 90s Rest:", "AMRAP: 6 C2B + 8 DB Thrusters @10kg + 6 Box Jumps @61cm"], "note": "Finaler Threshold Block 1 · kurze Intervalle hohe Intensität"}]}, {"name": "Do", "label": "Z2 Row + Recovery", "sections": [{"type": "cardio", "title": "Z2 Row", "details": ["40 min · Damper 3–4 · Rate 20–22 spm · Pace ~2:20/500m"]}, {"type": "cardio", "title": "Z2 Row — Active Recovery", "details": ["40 min Easy Row", "Damper: 3-4 · Rate: 20-22 spm", "Pace: ~2:20/500m (very comfortable)", "Nasal breathing entire session", "Wk3+: 45 min"], "note": "Recovery day · Z1-2 · let body absorb Mi training"}, {"type": "wod", "title": "Mobility", "details": ["Pigeon Pose 2×60s/Seite", "T-Spine Rotation 2×10", "Pec Minor Stretch 2×45s"]}], "zone": "Z1–2 · RPE 3–4"}, {"name": "Fr", "label": "Power Clean + EMOM", "sections": [{"type": "prehab", "title": "Prehab", "details": ["Schulter-Routine 10 min"]}, {"type": "ol", "title": "Olympic Lifting", "details": ["Power Clean 5×3 @{ol_low}% (~{pcl}kg)", "Hang Power Clean 3×3 @{ol_low2}%"], "note": "Triple Extension · sauberer Turnover"}, {"type": "wod", "title": "Aerobic Power EMOM — Z3-4 RPE 7", "details": ["EMOM 20 min (every min on the min):", "Min 1: 12 Wallballs @9kg", "Min 2: 6 Strict Pull-ups (or 8 Ring Rows)", "Min 3: 12 KB Swings @20kg", "Min 4: 200m Run", "Min 5: Rest", "= 4 full rounds"], "note": "RPE 7 · aerobic power · Wk3+: PU→8, KB→24kg · pace must be CONSISTENT across all 4 rounds"}], "zone": "Z3–4 · RPE 7", "wod_weeks": [{"title": "EMOM 20 — Aerobic Power Z3-4", "lines": ["Min 1: 12 Wallballs @9kg", "Min 2: 6 Strict PU (or 8 Ring Rows)", "Min 3: 12 KB Swings @20kg", "Min 4: 200m Run", "Min 5: Rest"], "note": "RPE 7 · 4 Rounds · pace IDENTICAL every round · Wk3+: PU→8, KB→24kg"}, {"title": "EMOM 16 — Couplets Z3-4", "lines": ["Every 2 min for 16 min (8 rounds alt):", "Odd: 12 cal Row + 8 Strict PU", "Even: 12 KB Swings @20kg + 12 Wallballs @9kg"], "note": "RPE 7 · 2min windows · sustainable pace throughout"}, {"title": "Aerobic Power Intervals Z3-4", "lines": ["5× (5min On / 3min Off):", "5min AMRAP: 10 Wallballs @9kg + 10 Box Jumps + 200m Run", "Score: rounds per interval"], "note": "RPE 7 · 5min chunks · scores should be consistent · Z3-4"}, {"title": "EMOM 24 — Triplets Z3-4", "lines": ["Every 3 min for 24 min (8 rounds):", "200m Run + 8 Strict PU + 12 KB Swings @24kg", "Must finish in ~2:30 = 30s rest"], "note": "RPE 7 · pace yourself R1 · time pressure builds aerobic power"}, {"title": "5× 4min On / 2min Off Z3-4", "lines": ["4min AMRAP:", "10 Wallballs @9kg", "10 Toes-to-Bar", "10 Box Jumps @61cm", "200m Run if time"], "note": "RPE 7 · longer windows = more pacing skill · Z3-4 sustained"}, {"title": "Aerobic Power Chipper Z3-4", "lines": ["For Time (20-25 min target):", "50 Wallballs @9kg", "40 KB Swings @24kg", "30 Box Jumps @61cm", "20 Strict PU", "1000m Row"], "note": "RPE 7 · long but controlled · NOT a sprint · aerobic power"}, {"title": "Deload EMOM — Easy Movement", "lines": ["EMOM 12:", "Min 1: 8 Wallballs @7kg", "Min 2: 6 Ring Rows", "Min 3: 10 Box Step-ups"], "note": "Deload · 60% · keep moving, no intensity"}, {"title": "EMOM 20 Retest Z3-4", "lines": ["Min 1: 14 Wallballs @9kg (vs 12 Wk1)", "Min 2: 8 Strict PU (vs 6 Wk1)", "Min 3: 14 KB Swings @24kg", "Min 4: 200m Run", "Min 5: Rest"], "note": "Compare to Wk1 · higher volume = proof of adaptation · RPE 7"}, {"title": "6-min Aerobic Power Rounds", "lines": ["4× (6min On / 2min Off):", "6min AMRAP: 12 WB @9kg + 8 C2B + 12 KB @24kg + 200m Run"], "note": "RPE 7-8 · longest aerobic power intervals Block 1 · C2B if shoulder allows"}, {"title": "Block 1 Aerobic Power Final", "lines": ["21-15-9 For Time:", "Wallballs @9kg", "KB Swings @24kg", "Box Jumps @61cm", "+ 400m Run after each round"], "note": "Classic format · RPE 7 · transition test into Block 2"}]}, {"name": "Sa", "label": "OL + Long WOD", "sections": [{"type": "ol", "title": "Clean Komplex", "details": ["6 Sets alle 2 min (Wk 3+: 8 Sets):", "1 Power Clean + 1 Hang Power Clean", "Sets 1–3: @{ol_low}% · Sets 4–6: @{ol}%"], "note": "Squat Clean ab Wk 3 wenn PC sauber · Jerk erst ab Wk 5"}, {"type": "cardio", "title": "Z2 Bike/Lauf", "details": ["20 min locker (Wk 3+: 25 min)", "Pace: sehr locker — nur Blut fließen lassen"]}, {"type": "wod", "title": "Long Aerobic WOD — Z1-2 NST Style", "details": ["For Time (target: 18-24 min):", "3 Rounds:", "750m Row (Wk3+: 1000m)", "20 Box Jump Step-downs @61cm", "15 DB Walking Lunges @17.5kg (Wk3+: 20×22.5kg)", "Rest 90s between rounds"], "note": "RPE 4-5 · long aerobic capacity · NST principle: volume at low intensity · round 1 always conservative"}], "zone": "Z1–2 · RPE 4–5", "wod_weeks": [{"title": "3 Rounds — Long Z1-2", "lines": ["750m Row", "20 Box Jump Step-downs @61cm", "15 DB Walking Lunges @17.5kg", "Rest 90s"], "note": "RPE 4-5 · Wk3+: 1000m Row · long aerobic base"}, {"title": "AMRAP 25 — Easy Grind", "lines": ["400m Run", "15 KB Swings @20kg", "10 Box Step-ups @61cm", "10 Ab-Mat Sit-ups"], "note": "RPE 4-5 · conversational pace · Z1-2 throughout"}, {"title": "4 Rounds — Aerobic Volume", "lines": ["1000m Row", "20 Box Jump Step-downs @61cm", "20 DB Walking Lunges @20kg", "Rest 2 min"], "note": "RPE 5 · higher volume Wk3 · sustainable pace"}, {"title": "Long Run + Gym", "lines": ["2000m Easy Row (nasal breathing)", "Then AMRAP 15:", "10 Strict PU", "15 Wallballs @9kg", "200m Run"], "note": "RPE 4-5 · two-part session · aerobic base"}, {"title": "5 Rounds — Z2 Triplet", "lines": ["400m Run", "12 DB RDL @20kg", "15 Box Step-ups @61cm", "Rest 60s"], "note": "RPE 5 · Wk5 volume peak Sa · consistent splits"}, {"title": "AMRAP 30 — Long Aerobic", "lines": ["500m Row", "15 Wallballs @9kg", "10 Strict PU", "15 Box Step-ups @61cm"], "note": "RPE 5 · 30 min AMRAP · longest aerobic volume Block 1"}, {"title": "Deload — Easy Swim or Walk", "lines": ["Option A: 30 min Easy Walk or Bike", "Option B: 3 Rounds: 400m Run + 8 KB Swings @16kg", "Very easy pace — enjoy it"], "note": "Deload Sa · 60% · active recovery only"}, {"title": "3 Rounds — Test Benchmark", "lines": ["1000m Row", "20 Box Jumps @61cm (not step-downs)", "20 DB Lunges @22.5kg", "Rest 90s"], "note": "Improvement vs Wk1 · heavier DB + box jumps"}, {"title": "AMRAP 28 — Aerobic Peak", "lines": ["400m Run", "12 Strict PU", "15 KB Swings @24kg", "15 Wallballs @9kg", "200m Row"], "note": "RPE 6 · aerobic capacity peak · Z2-3"}, {"title": "Block 1 Final — Long Test", "lines": ["For Time:", "2000m Row", "40 Box Jumps @61cm", "40 DB Walking Lunges @22.5kg", "2000m Run"], "note": "Block 1 closing test · 25-35 min target · all aerobic"}]}, {"name": "So", "label": "Erholung", "rest": true, "sections": [{"type": "rest", "title": "Aktive Erholung", "details": ["Spaziergang 30–45 min", "Stretching 20 min", "Sauna optional", "Meal Prep"]}]}], [{"name": "Mo", "label": "Snatch + Squat", "sections": [{"type": "prehab", "title": "Prehab", "details": ["Schulter-Routine 10 min"]}, {"type": "ol", "title": "Snatch Progression", "details": ["Muscle Snatch 4×3 @40–50kg (kontrollierter Turnover)", "Hang Squat Snatch 5×3 @{ol_low}% (~{hss}kg)"], "note": "Ab Wk 5–6: voller Squat Snatch möglich wenn schmerzfrei"}, {"type": "strength", "title": "Kraft", "details": ["Back Squat 5×3 @{sq}% (~{bsq}kg)", "Push Press 4×5 @{pr}% (~{press}kg)"]}, {"type": "wod", "title": "MetCon", "details": ["15 min Mixed · spezifisch je Woche"]}], "zone": "Z2–3 · RPE 5–6"}, {"name": "Di", "label": "Intervall + Gymnastics", "sections": [{"type": "cardio", "title": "Lauf-Intervalle", "details": ["6×600m @4:45–5:00/km · 90s Pause"], "note": "Wk 1–4: 6×600m · Wk 5–8: 8×400m · Wk 9–12: 10×300m"}, {"type": "gymnastics", "title": "Gymnastics Volumen", "details": ["Kipping Pull-ups 5×10 (Wk 1–4)", "Strict HSPU Progression 4×ME"]}, {"type": "wod", "title": "Core + Accessory", "details": ["GHD Sit-ups 3×15", "Ring Support Hold 3×30s"]}], "zone": "Z1–2 · RPE 3–4"}, {"name": "Mi", "label": "Clean & Jerk + DL", "sections": [{"type": "prehab", "title": "Prehab", "details": ["Schulter-Routine 10 min"]}, {"type": "ol", "title": "Clean & Jerk", "details": ["C&J 5×2 @{ol}% (~{cj}kg)", "Split Jerk aus Regal 3×3 @{ol}%"]}, {"type": "strength", "title": "Deadlift", "details": ["Deadlift 4×3 @{dl}% (~{dead}kg)"]}, {"type": "gymnastics", "title": "Gymnastics Skills", "details": ["Ring Muscle-Up Progression · 20 min", "Bar MU Skills wenn RMU sicher"]}], "zone": "Z4–5 · RPE 8–9"}, {"name": "Do", "label": "Z2 + HSPU", "sections": [{"type": "cardio", "title": "Z2 Bike oder Row", "details": ["45 min @aerober Schwelle"]}, {"type": "gymnastics", "title": "HSPU Volumen", "details": ["Strict HSPU 5×ME", "Kipping HSPU (ab Wk 5) 3×10"]}, {"type": "wod", "title": "Mobility", "details": ["Hip + Shoulder 20 min"]}], "zone": "Z1–2 · RPE 3–4"}, {"name": "Fr", "label": "OL Komplex + WOD", "sections": [{"type": "ol", "title": "OL Komplex", "details": ["Power Clean + Hang Power Clean + Push Jerk", "6 Sets @{ol_low}%–{ol}%"]}, {"type": "strength", "title": "Front Squat", "details": ["Front Squat 3×2 @{sq}% (~{fsq}kg)"]}, {"type": "wod", "title": "Mixed Modal WOD", "details": ["20 min Mixed · Kraft + Gymnastics"]}], "zone": "Z3–4 · RPE 7"}, {"name": "Sa", "label": "Long WOD + MU", "sections": [{"type": "wod", "title": "Long WOD", "details": ["25–35 min Mixed Modal", "z.B. Row + DL + GHD + Bar MU"]}, {"type": "gymnastics", "title": "Muscle-Up Volumen", "details": ["Ring MU 5×3–5", "Bar MU 3×5 (wenn verfügbar)"]}], "zone": "Z2–3 · RPE 5–6"}, {"name": "So", "label": "Erholung", "rest": true, "sections": [{"type": "rest", "title": "Aktive Erholung", "details": ["Spaziergang · Stretching · Sauna · Meal Prep"]}]}], [{"name": "Mo", "label": "Snatch + WOD", "sections": [{"type": "ol", "title": "Snatch Komplex", "details": ["Snatch + OHS + Snatch Balance", "5 Sets @{ol_low}%–{ol}%"]}, {"type": "wod", "title": "WOD Kraft + Gym", "details": ["20 min: Snatch · C2B · HSPU · Squat"]}], "zone": "Z3–4 · RPE 7"}, {"name": "Di", "label": "Threshold + BMU", "sections": [{"type": "cardio", "title": "Threshold Run", "details": ["5km @race pace (Ziel: 4:45–5:00/km)"], "note": "NST-Prinzip: 1× Threshold pro Woche für Aerobic Power"}, {"type": "gymnastics", "title": "Bar/Ring MU Skills", "details": ["BMU Skill-Work 20 min", "Unbroken Sets trainieren"]}, {"type": "wod", "title": "Core", "details": ["GHD · L-Sit · Ab-Mat 3×15"]}], "zone": "Z1–2 · RPE 3–4"}, {"name": "Mi", "label": "C&J + Long WOD", "sections": [{"type": "ol", "title": "Clean & Jerk", "details": ["C&J Komplex 5×2 @{ol}%"]}, {"type": "wod", "title": "Long Mixed Modal", "details": ["25–30 min: Row + Run + OL + Gymnastics"], "note": "Mayhem-Prinzip: Long Aerobic Capacity 1×/Wo"}], "zone": "Z4–5 · RPE 8–9"}, {"name": "Do", "label": "Z2 + HSW", "sections": [{"type": "cardio", "title": "Z2 Row", "details": ["40 min locker"]}, {"type": "gymnastics", "title": "Handstand Walk", "details": ["HSW Skills 20 min", "Pirouettes · Obstacle"]}], "zone": "Z1–2 · RPE 3–4"}, {"name": "Fr", "label": "Open Sim + Kraft", "sections": [{"type": "wod", "title": "Open Simulation WOD", "details": ["WOD im Open-Stil · Video-Analyse"], "note": "Invictus-Prinzip: Weekly competition prep"}, {"type": "strength", "title": "Kraft-Erhalt", "details": ["Back Squat 3×5 @{sq}%"]}], "zone": "Z3–4 · RPE 7"}, {"name": "Sa", "label": "Competition Training", "sections": [{"type": "wod", "title": "2–3 WODs back-to-back", "details": ["WOD 1: kurz+intensiv (<10 min)", "WOD 2: Mixed Modal (15–20 min)", "WOD 3: Long (>20 min) optional"], "note": "CompTrain-Prinzip: Multi-WOD Saturday für Wettkampf-Readiness"}], "zone": "Z2–3 · RPE 5–6"}, {"name": "So", "label": "Erholung", "rest": true, "sections": [{"type": "rest", "title": "Aktive Erholung", "details": ["Spaziergang · Stretching · Sauna"]}]}], [{"name": "Mo", "label": "OL + Open Sim", "sections": [{"type": "ol", "title": "OL leicht", "details": ["Snatch 4×2 @{ol_low}% — Technik", "C&J 4×2 @{ol}%"]}, {"type": "wod", "title": "Open WOD Simulation", "details": ["WOD im Open-Stil · bekannte Bewegungen", "Score tracken und vergleichen"]}], "zone": "Z3–4 · RPE 7"}, {"name": "Di", "label": "Aerob + Gymnastics", "sections": [{"type": "cardio", "title": "Kurze Intervalle + Z2", "details": ["20 min Z2 + 6×200m @Sprint-Pace"]}, {"type": "gymnastics", "title": "Gymnastics Open-Spezifik", "details": ["C2B · T2B · HSPU · MU — Open-Bewegungen", "Splits optimieren"]}], "zone": "Z1–2 · RPE 3–4"}, {"name": "Mi", "label": "C&J + Retest", "sections": [{"type": "ol", "title": "Clean & Jerk", "details": ["C&J 3×2 @{ol}% — sauber"]}, {"type": "wod", "title": "Open WOD Retest", "details": ["Einen WOD der Vorwoche wiederholen", "Verbesserung tracken"]}], "zone": "Z4–5 · RPE 8–9"}, {"name": "Do", "label": "Aktive Erholung", "sections": [{"type": "rest", "title": "Aktive Erholung", "details": ["Mobility Yoga 30 min", "Prehab Schulter"]}], "zone": "Z1–2 · RPE 3–4"}, {"name": "Fr", "label": "Kraft + WODs", "sections": [{"type": "strength", "title": "Kraft-Erhalt", "details": ["BSQ + FS je 3×5 @{sq}%"]}, {"type": "wod", "title": "Kurze WODs", "details": ["2× kurze WODs <10 min", "High Intensity · Open-Spezifik"]}], "zone": "Z4–5 · RPE 8–9"}, {"name": "Sa", "label": "Open WOD Tag", "sections": [{"type": "wod", "title": "Open WOD Tag", "details": ["Open WOD wie im Wettkampf", "Video aufnehmen · Score eintragen"], "note": "Taper: Volumen runter, Intensität hoch"}], "zone": "Z2–3 · RPE 5–6"}, {"name": "So", "label": "Erholung", "rest": true, "sections": [{"type": "rest", "title": "Aktive Erholung", "details": ["Spaziergang · Stretching"]}]}]];
+const TEMPLATES = [[{"name": "Mo", "label": "Kraft + OL", "sections": [{"type": "prehab", "title": "Schulter Prehab", "details": ["Banded ER/IR 3×15", "Y-T-W 3×10", "Face Pulls 3×20", "Skapula PU 2×10"]}, {"type": "ol", "title": "Olympic Lifting", "details": ["Snatch Deadlift 4×4 @{ol}% (~{snatch_dl}kg) — kein Overhead", "Snatch Pull 3×3 @{ol_low}% — bis Hüfte, kein Turnover"], "note": "Schulter: kein OHS, kein Overhead-Stress"}, {"type": "strength", "title": "Kraft", "details": ["Back Squat 4×6 @{sq}% (~{bsq}kg) Tempo 3-1-X", "Strict Press 3×5 @{pr}% (~{press}kg) schmerzfrei · nicht bis Failure"]}, {"type": "wod", "title": "MetCon — Aerobic Endurance Z2-3", "details": ["3 Rounds @ conversational pace:", "400m Run (nasal breathing)", "8 Strict Pull-ups", "12 DB Romanian Deadlift @17.5kg", "10 Box Step-ups @61cm", "— rest as needed between rounds —"], "note": "RPE 5-6 · stays aerobic · Wk3+: PU→10, DB→20kg · nasal breathing on run = Zone 2 check"}], "zone": "Z2–3 · RPE 5–6", "wod_weeks": [{"title": "3 Rounds For Time — Aerobic Pace", "lines": ["400m Run (nasal breathing)", "8 Strict Pull-ups", "12 DB RDL @17.5kg", "10 Box Step-ups @61cm", "Rest as needed"], "note": "RPE 5-6 · nasal breathing = Z2 check · no kipping"}, {"title": "AMRAP 18 — Sustain Z2", "lines": ["5 Strict Pull-ups", "10 DB Goblet Squat @20kg", "15 Ab-Mat Sit-ups", "200m Run"], "note": "Pace muss in Runde 1 = Runde 7 sein · Z2 Aerobic Endurance"}, {"title": "4 Rounds — Steady State", "lines": ["300m Row", "8 Strict Pull-ups", "10 DB Romanian DL @20kg", "12 Wallballs @9kg"], "note": "RPE 5-6 · erhöhtes Volumen ab Wk3 · 90s Rest zwischen Rounds"}, {"title": "3 Rounds + Buy-In", "lines": ["Buy-In: 800m Run", "Then 3 Rounds:", "10 Strict Pull-ups", "15 KB Swings @20kg", "20 Box Step-ups @61cm"], "note": "Z2-3 · RPE 6 · Buy-In setzt Pace für alles danach"}, {"title": "Chipper — Aerobic Engine", "lines": ["For Time:", "600m Run", "30 Strict Pull-ups", "40 DB Walking Lunges @17.5kg", "600m Run", "20 Box Jumps @61cm"], "note": "RPE 6 · split PU in manageable sets · all aerobic"}, {"title": "5 Rounds — Volume Peak", "lines": ["5 Rounds:", "200m Run", "6 Strict Pull-ups", "8 DB RDL @22.5kg", "10 Wallballs @9kg", "Rest 60s"], "note": "RPE 6 · highest aerobic volume of Block 1 · controlled"}, {"title": "Deload — Easy Movement", "lines": ["3 Rounds (60% effort):", "300m Run", "5 Strict Pull-ups", "8 DB Goblet Squat @15kg", "Rest as needed"], "note": "Deload — 60% Volumen · aktive Erholung · keine Bestleistung"}, {"title": "AMRAP 20 — Aerobic Test", "lines": ["AMRAP 20:", "400m Run", "8 Strict Pull-ups", "12 KB Swings @24kg", "12 Box Jumps @61cm"], "note": "RPE 6-7 · test aerobic capacity · nasal breathing on run"}, {"title": "Long Chipper — Peak Aerobic", "lines": ["For Time:", "1000m Row", "40 Strict Pull-ups (partition freely)", "50 DB Walking Lunges @20kg", "1000m Run"], "note": "RPE 7 · aerobic peak · 30-35 min target"}, {"title": "4 Rounds — Transition Prep", "lines": ["4 Rounds:", "400m Run", "10 C2B Pull-ups (or Strict PU)", "15 Wallballs @9kg", "10 Box Jumps @61cm"], "note": "Block 1 final week · preparing for Block 2 intensity"}]}, {"name": "Di", "label": "Z2 + Gymnastics", "sections": [{"type": "cardio", "title": "Z2 Ausdauer — 35 min", "details": ["Easy Run 35 min @5:50-6:20/km", "Nasenatemung die ganze Zeit", "Herzfrequenz: 130-145 bpm", "Wk3+: 40 min · Wk5+: 45 min"], "note": "Z1-2 · RPE 3-4 · Dennis Obst: Z2 so viel wie moeglich"}, {"type": "gymnastics", "title": "Strict Gymnastics", "details": ["A) Strict Pull-ups: 4x5 (2s oben halten)", "B) Ring Rows: 3x10 (Koerper horizontal)", "C) Banded Pull-Aparts: 3x15", "D) Dead Bug: 3x10/Seite"], "note": "Kein Kipping · Schulter schonen · Wk3+: PU auf 6, Wk5+: PU auf 8"}], "zone": "Z1-2 · RPE 3-4"}, {"name": "Mi", "label": "Front Squat + DL", "sections": [{"type": "prehab", "title": "Prehab", "details": ["Schulter-Routine 10 min"]}, {"type": "strength", "title": "Kraft", "details": ["Front Squat 4×5 @{sq_low}% (~{fsq}kg)", "Deadlift Deadstop 4×5 @{dl}% (~{dead}kg)", "Romanian DL 3×8 @55%"]}, {"type": "wod", "title": "Wk1-2: Aerobic WOD / Wk3+: Threshold Z4-5", "details": ["WK 1-2 — AMRAP 20 @aerobic pace:", "500m Row · 12 Wallballs 9kg · 10 Box Jumps 61cm", "—", "WK 3+ — Threshold Intervals (CompTrain style):", "3× AMRAP 3min / 2min rest", "AMRAP: 5 C2B + 7 Wallballs 9kg + 9 cal Bike", "— or — 3× 3min Row @2:00/500m / 2min rest"], "note": "Wk3+: Z4-5 RPE 8-9 · 48h recovery nach diesem Training · echte Threshold-Arbeit"}], "zone": "Z2–3 → Z4–5 ab Wk3 · RPE 5–9", "wod_weeks": [{"title": "AMRAP 20 — Aerobic Base (Z2-3)", "lines": ["500m Row", "12 Wallballs @9kg", "10 Box Jumps @61cm", "10 Ab-Mat Sit-ups"], "note": "Wk1: Z2-3 nur aerob · kein Threshold noch"}, {"title": "3 Rounds + Accessory (Z2-3)", "lines": ["500m Row", "15 Wallballs @9kg", "12 Box Step-ups", "10 V-Ups", "Rest 2 min"], "note": "Wk2: Z2-3 · RPE 5-6 · Aufbau für Threshold ab Wk3"}, {"title": "Threshold Intervals — FIRST PUSH (Z4-5)", "lines": ["3× AMRAP 3min / 2min Rest:", "AMRAP: 5 C2B Pull-ups + 8 Wallballs @9kg + 10 cal Row", "— Score: Rounds + Reps each AMRAP —"], "note": "RPE 8-9 · echtes Threshold · Runden sollen gleich bleiben · 48h Recovery danach"}, {"title": "Rowing Threshold — Z4-5", "lines": ["3× 3min Row @2:00/500m / 2min Rest", "Then: 3× 1min Max Cal Bike / 1min Rest"], "note": "RPE 8-9 · mono-structural threshold · pace muss gleich bleiben"}, {"title": "CF Intervals — Couplet Z4-5", "lines": ["4× AMRAP 3min / 2min Rest:", "AMRAP: 7 Toes-to-Bar + 9 DB Thrusters @10kg", "— Score: total reps —"], "note": "RPE 8-9 · Gymnastics + DB · core CrossFit Threshold"}, {"title": "Mixed Modal Threshold Z4-5", "lines": ["4× AMRAP 2:30 / 1:30 Rest:", "AMRAP: 200m Run + 8 Wallballs @9kg + 5 Strict PU", "— Score: rounds each interval —"], "note": "RPE 8-9 · run + gym + WB · hardest threshold of Block 1"}, {"title": "Deload — Easy AMRAP (Z2)", "lines": ["AMRAP 15 (60% effort):", "400m Row", "10 Wallballs @7kg", "10 Box Step-ups"], "note": "Deload Woche · Z2 nur · keine Threshold-Arbeit"}, {"title": "Threshold Retest — 3min AMRAPs", "lines": ["4× AMRAP 3min / 2min Rest:", "AMRAP: 5 C2B + 8 WB @9kg + 10 cal Row", "Compare to Wk3 score!"], "note": "Direkter Vergleich zu Wk3 · zeigt Adaptation · RPE 8-9"}, {"title": "Long Threshold — 4min Intervals", "lines": ["3× AMRAP 4min / 2min Rest:", "AMRAP: 400m Run + 10 Wallballs @9kg + 10 Toes-to-Bar", "— Score: rounds —"], "note": "RPE 8-9 · längste Threshold-Intervalle Block 1 · pacing crucial"}, {"title": "Block 1 Threshold Final", "lines": ["5× AMRAP 2min / 90s Rest:", "AMRAP: 6 C2B + 8 DB Thrusters @10kg + 6 Box Jumps @61cm"], "note": "Finaler Threshold Block 1 · kurze Intervalle hohe Intensität"}]}, {"name": "Do", "label": "Z2 Row + Recovery", "sections": [{"type": "cardio", "title": "Z2 Row", "details": ["40 min · Damper 3–4 · Rate 20–22 spm · Pace ~2:20/500m"]}, {"type": "cardio", "title": "Z2 Row — Active Recovery", "details": ["40 min Easy Row", "Damper: 3-4 · Rate: 20-22 spm", "Pace: ~2:20/500m (very comfortable)", "Nasal breathing entire session", "Wk3+: 45 min"], "note": "Recovery day · Z1-2 · let body absorb Mi training"}, {"type": "wod", "title": "Mobility", "details": ["Pigeon Pose 2×60s/Seite", "T-Spine Rotation 2×10", "Pec Minor Stretch 2×45s"]}], "zone": "Z1–2 · RPE 3–4"}, {"name": "Fr", "label": "Power Clean + EMOM", "sections": [{"type": "prehab", "title": "Prehab", "details": ["Schulter-Routine 10 min"]}, {"type": "ol", "title": "Olympic Lifting", "details": ["Power Clean 5×3 @{ol_low}% (~{pcl}kg)", "Hang Power Clean 3×3 @{ol_low2}%"], "note": "Triple Extension · sauberer Turnover"}, {"type": "wod", "title": "Aerobic Power EMOM — Z3-4 RPE 7", "details": ["EMOM 20 min (every min on the min):", "Min 1: 12 Wallballs @9kg", "Min 2: 6 Strict Pull-ups (or 8 Ring Rows)", "Min 3: 12 KB Swings @20kg", "Min 4: 200m Run", "Min 5: Rest", "= 4 full rounds"], "note": "RPE 7 · aerobic power · Wk3+: PU→8, KB→24kg · pace must be CONSISTENT across all 4 rounds"}], "zone": "Z3–4 · RPE 7", "wod_weeks": [{"title": "EMOM 20 — Aerobic Power Z3-4", "lines": ["Min 1: 12 Wallballs @9kg", "Min 2: 6 Strict PU (or 8 Ring Rows)", "Min 3: 12 KB Swings @20kg", "Min 4: 200m Run", "Min 5: Rest"], "note": "RPE 7 · 4 Rounds · pace IDENTICAL every round · Wk3+: PU→8, KB→24kg"}, {"title": "EMOM 16 — Couplets Z3-4", "lines": ["Every 2 min for 16 min (8 rounds alt):", "Odd: 12 cal Row + 8 Strict PU", "Even: 12 KB Swings @20kg + 12 Wallballs @9kg"], "note": "RPE 7 · 2min windows · sustainable pace throughout"}, {"title": "Aerobic Power Intervals Z3-4", "lines": ["5× (5min On / 3min Off):", "5min AMRAP: 10 Wallballs @9kg + 10 Box Jumps + 200m Run", "Score: rounds per interval"], "note": "RPE 7 · 5min chunks · scores should be consistent · Z3-4"}, {"title": "EMOM 24 — Triplets Z3-4", "lines": ["Every 3 min for 24 min (8 rounds):", "200m Run + 8 Strict PU + 12 KB Swings @24kg", "Must finish in ~2:30 = 30s rest"], "note": "RPE 7 · pace yourself R1 · time pressure builds aerobic power"}, {"title": "5× 4min On / 2min Off Z3-4", "lines": ["4min AMRAP:", "10 Wallballs @9kg", "10 Toes-to-Bar", "10 Box Jumps @61cm", "200m Run if time"], "note": "RPE 7 · longer windows = more pacing skill · Z3-4 sustained"}, {"title": "Aerobic Power Chipper Z3-4", "lines": ["For Time (20-25 min target):", "50 Wallballs @9kg", "40 KB Swings @24kg", "30 Box Jumps @61cm", "20 Strict PU", "1000m Row"], "note": "RPE 7 · long but controlled · NOT a sprint · aerobic power"}, {"title": "Deload EMOM — Easy Movement", "lines": ["EMOM 12:", "Min 1: 8 Wallballs @7kg", "Min 2: 6 Ring Rows", "Min 3: 10 Box Step-ups"], "note": "Deload · 60% · keep moving, no intensity"}, {"title": "EMOM 20 Retest Z3-4", "lines": ["Min 1: 14 Wallballs @9kg (vs 12 Wk1)", "Min 2: 8 Strict PU (vs 6 Wk1)", "Min 3: 14 KB Swings @24kg", "Min 4: 200m Run", "Min 5: Rest"], "note": "Compare to Wk1 · higher volume = proof of adaptation · RPE 7"}, {"title": "6-min Aerobic Power Rounds", "lines": ["4× (6min On / 2min Off):", "6min AMRAP: 12 WB @9kg + 8 C2B + 12 KB @24kg + 200m Run"], "note": "RPE 7-8 · longest aerobic power intervals Block 1 · C2B if shoulder allows"}, {"title": "Block 1 Aerobic Power Final", "lines": ["21-15-9 For Time:", "Wallballs @9kg", "KB Swings @24kg", "Box Jumps @61cm", "+ 400m Run after each round"], "note": "Classic format · RPE 7 · transition test into Block 2"}]}, {"name": "Sa", "label": "OL + Long WOD", "sections": [{"type": "ol", "title": "Clean Komplex", "details": ["6 Sets alle 2 min (Wk 3+: 8 Sets):", "1 Power Clean + 1 Hang Power Clean", "Sets 1–3: @{ol_low}% · Sets 4–6: @{ol}%"], "note": "Squat Clean ab Wk 3 wenn PC sauber · Jerk erst ab Wk 5"}, {"type": "cardio", "title": "Z2 Bike/Lauf", "details": ["20 min locker (Wk 3+: 25 min)", "Pace: sehr locker — nur Blut fließen lassen"]}, {"type": "wod", "title": "Long Aerobic WOD — Z1-2 NST Style", "details": ["For Time (target: 18-24 min):", "3 Rounds:", "750m Row (Wk3+: 1000m)", "20 Box Jump Step-downs @61cm", "15 DB Walking Lunges @17.5kg (Wk3+: 20×22.5kg)", "Rest 90s between rounds"], "note": "RPE 4-5 · long aerobic capacity · NST principle: volume at low intensity · round 1 always conservative"}], "zone": "Z1–2 · RPE 4–5", "wod_weeks": [{"title": "3 Rounds — Long Z1-2", "lines": ["750m Row", "20 Box Jump Step-downs @61cm", "15 DB Walking Lunges @17.5kg", "Rest 90s"], "note": "RPE 4-5 · Wk3+: 1000m Row · long aerobic base"}, {"title": "AMRAP 25 — Easy Grind", "lines": ["400m Run", "15 KB Swings @20kg", "10 Box Step-ups @61cm", "10 Ab-Mat Sit-ups"], "note": "RPE 4-5 · conversational pace · Z1-2 throughout"}, {"title": "4 Rounds — Aerobic Volume", "lines": ["1000m Row", "20 Box Jump Step-downs @61cm", "20 DB Walking Lunges @20kg", "Rest 2 min"], "note": "RPE 5 · higher volume Wk3 · sustainable pace"}, {"title": "Long Run + Gym", "lines": ["2000m Easy Row (nasal breathing)", "Then AMRAP 15:", "10 Strict PU", "15 Wallballs @9kg", "200m Run"], "note": "RPE 4-5 · two-part session · aerobic base"}, {"title": "5 Rounds — Z2 Triplet", "lines": ["400m Run", "12 DB RDL @20kg", "15 Box Step-ups @61cm", "Rest 60s"], "note": "RPE 5 · Wk5 volume peak Sa · consistent splits"}, {"title": "AMRAP 30 — Long Aerobic", "lines": ["500m Row", "15 Wallballs @9kg", "10 Strict PU", "15 Box Step-ups @61cm"], "note": "RPE 5 · 30 min AMRAP · longest aerobic volume Block 1"}, {"title": "Deload — Easy Swim or Walk", "lines": ["Option A: 30 min Easy Walk or Bike", "Option B: 3 Rounds: 400m Run + 8 KB Swings @16kg", "Very easy pace — enjoy it"], "note": "Deload Sa · 60% · active recovery only"}, {"title": "3 Rounds — Test Benchmark", "lines": ["1000m Row", "20 Box Jumps @61cm (not step-downs)", "20 DB Lunges @22.5kg", "Rest 90s"], "note": "Improvement vs Wk1 · heavier DB + box jumps"}, {"title": "AMRAP 28 — Aerobic Peak", "lines": ["400m Run", "12 Strict PU", "15 KB Swings @24kg", "15 Wallballs @9kg", "200m Row"], "note": "RPE 6 · aerobic capacity peak · Z2-3"}, {"title": "Block 1 Final — Long Test", "lines": ["For Time:", "2000m Row", "40 Box Jumps @61cm", "40 DB Walking Lunges @22.5kg", "2000m Run"], "note": "Block 1 closing test · 25-35 min target · all aerobic"}]}, {"name": "So", "label": "Erholung", "rest": true, "sections": [{"type": "rest", "title": "Aktive Erholung", "details": ["Spaziergang 30–45 min", "Stretching 20 min", "Sauna optional", "Meal Prep"]}]}], [{"name": "Mo", "label": "Snatch + Squat", "sections": [{"type": "prehab", "title": "Prehab", "details": ["Schulter-Routine 10 min"]}, {"type": "ol", "title": "Snatch Progression", "details": ["Muscle Snatch 4×3 @40–50kg (kontrollierter Turnover)", "Hang Squat Snatch 5×3 @{ol_low}% (~{hss}kg)"], "note": "Ab Wk 5–6: voller Squat Snatch möglich wenn schmerzfrei"}, {"type": "strength", "title": "Kraft", "details": ["Back Squat 5×3 @{sq}% (~{bsq}kg)", "Push Press 4×5 @{pr}% (~{press}kg)"]}, {"type": "wod", "title": "MetCon", "details": ["15 min Mixed · spezifisch je Woche"]}], "zone": "Z2–3 · RPE 5–6"}, {"name": "Di", "label": "Intervall + Gymnastics", "sections": [{"type": "cardio", "title": "Lauf-Intervalle", "details": ["6×600m @4:45–5:00/km · 90s Pause"], "note": "Wk 1–4: 6×600m · Wk 5–8: 8×400m · Wk 9–12: 10×300m"}, {"type": "gymnastics", "title": "Gymnastics Volumen", "details": ["Kipping Pull-ups 5×10 (Wk 1–4)", "Strict HSPU Progression 4×ME"]}, {"type": "wod", "title": "Core + Accessory", "details": ["GHD Sit-ups 3×15", "Ring Support Hold 3×30s"]}], "zone": "Z1–2 · RPE 3–4"}, {"name": "Mi", "label": "Clean & Jerk + DL", "sections": [{"type": "prehab", "title": "Prehab", "details": ["Schulter-Routine 10 min"]}, {"type": "ol", "title": "Clean & Jerk", "details": ["C&J 5×2 @{ol}% (~{cj}kg)", "Split Jerk aus Regal 3×3 @{ol}%"]}, {"type": "strength", "title": "Deadlift", "details": ["Deadlift 4×3 @{dl}% (~{dead}kg)"]}, {"type": "gymnastics", "title": "Gymnastics Skills", "details": ["Ring Muscle-Up Progression · 20 min", "Bar MU Skills wenn RMU sicher"]}], "zone": "Z4–5 · RPE 8–9"}, {"name": "Do", "label": "Z2 + HSPU", "sections": [{"type": "cardio", "title": "Z2 Bike oder Row", "details": ["45 min @aerober Schwelle"]}, {"type": "gymnastics", "title": "HSPU Volumen", "details": ["Strict HSPU 5×ME", "Kipping HSPU (ab Wk 5) 3×10"]}, {"type": "wod", "title": "Mobility", "details": ["Hip + Shoulder 20 min"]}], "zone": "Z1–2 · RPE 3–4"}, {"name": "Fr", "label": "OL Komplex + WOD", "sections": [{"type": "ol", "title": "OL Komplex", "details": ["Power Clean + Hang Power Clean + Push Jerk", "6 Sets @{ol_low}%–{ol}%"]}, {"type": "strength", "title": "Front Squat", "details": ["Front Squat 3×2 @{sq}% (~{fsq}kg)"]}, {"type": "wod", "title": "Mixed Modal WOD", "details": ["20 min Mixed · Kraft + Gymnastics"]}], "zone": "Z3–4 · RPE 7"}, {"name": "Sa", "label": "Long WOD + MU", "sections": [{"type": "wod", "title": "Long WOD", "details": ["25–35 min Mixed Modal", "z.B. Row + DL + GHD + Bar MU"]}, {"type": "gymnastics", "title": "Muscle-Up Volumen", "details": ["Ring MU 5×3–5", "Bar MU 3×5 (wenn verfügbar)"]}], "zone": "Z2–3 · RPE 5–6"}, {"name": "So", "label": "Erholung", "rest": true, "sections": [{"type": "rest", "title": "Aktive Erholung", "details": ["Spaziergang · Stretching · Sauna · Meal Prep"]}]}], [{"name": "Mo", "label": "Snatch + WOD", "sections": [{"type": "ol", "title": "Snatch Komplex", "details": ["Snatch + OHS + Snatch Balance", "5 Sets @{ol_low}%–{ol}%"]}, {"type": "wod", "title": "WOD Kraft + Gym", "details": ["20 min: Snatch · C2B · HSPU · Squat"]}], "zone": "Z3–4 · RPE 7"}, {"name": "Di", "label": "Threshold + BMU", "sections": [{"type": "cardio", "title": "Threshold Run", "details": ["5km @race pace (Ziel: 4:45–5:00/km)"], "note": "NST-Prinzip: 1× Threshold pro Woche für Aerobic Power"}, {"type": "gymnastics", "title": "Bar/Ring MU Skills", "details": ["BMU Skill-Work 20 min", "Unbroken Sets trainieren"]}, {"type": "wod", "title": "Core", "details": ["GHD · L-Sit · Ab-Mat 3×15"]}], "zone": "Z1–2 · RPE 3–4"}, {"name": "Mi", "label": "C&J + Long WOD", "sections": [{"type": "ol", "title": "Clean & Jerk", "details": ["C&J Komplex 5×2 @{ol}%"]}, {"type": "wod", "title": "Long Mixed Modal", "details": ["25–30 min: Row + Run + OL + Gymnastics"], "note": "Mayhem-Prinzip: Long Aerobic Capacity 1×/Wo"}], "zone": "Z4–5 · RPE 8–9"}, {"name": "Do", "label": "Z2 + HSW", "sections": [{"type": "cardio", "title": "Z2 Row", "details": ["40 min locker"]}, {"type": "gymnastics", "title": "Handstand Walk", "details": ["HSW Skills 20 min", "Pirouettes · Obstacle"]}], "zone": "Z1–2 · RPE 3–4"}, {"name": "Fr", "label": "Open Sim + Kraft", "sections": [{"type": "wod", "title": "Open Simulation WOD", "details": ["WOD im Open-Stil · Video-Analyse"], "note": "Invictus-Prinzip: Weekly competition prep"}, {"type": "strength", "title": "Kraft-Erhalt", "details": ["Back Squat 3×5 @{sq}%"]}], "zone": "Z3–4 · RPE 7"}, {"name": "Sa", "label": "Competition Training", "sections": [{"type": "wod", "title": "2–3 WODs back-to-back", "details": ["WOD 1: kurz+intensiv (<10 min)", "WOD 2: Mixed Modal (15–20 min)", "WOD 3: Long (>20 min) optional"], "note": "CompTrain-Prinzip: Multi-WOD Saturday für Wettkampf-Readiness"}], "zone": "Z2–3 · RPE 5–6"}, {"name": "So", "label": "Erholung", "rest": true, "sections": [{"type": "rest", "title": "Aktive Erholung", "details": ["Spaziergang · Stretching · Sauna"]}]}], [{"name": "Mo", "label": "OL + Open Sim", "sections": [{"type": "ol", "title": "OL leicht", "details": ["Snatch 4×2 @{ol_low}% — Technik", "C&J 4×2 @{ol}%"]}, {"type": "wod", "title": "Open WOD Simulation", "details": ["WOD im Open-Stil · bekannte Bewegungen", "Score tracken und vergleichen"]}], "zone": "Z3–4 · RPE 7"}, {"name": "Di", "label": "Aerob + Gymnastics", "sections": [{"type": "cardio", "title": "Kurze Intervalle + Z2", "details": ["20 min Z2 + 6×200m @Sprint-Pace"]}, {"type": "gymnastics", "title": "Gymnastics Open-Spezifik", "details": ["C2B · T2B · HSPU · MU — Open-Bewegungen", "Splits optimieren"]}], "zone": "Z1–2 · RPE 3–4"}, {"name": "Mi", "label": "C&J + Retest", "sections": [{"type": "ol", "title": "Clean & Jerk", "details": ["C&J 3×2 @{ol}% — sauber"]}, {"type": "wod", "title": "Open WOD Retest", "details": ["Einen WOD der Vorwoche wiederholen", "Verbesserung tracken"]}], "zone": "Z4–5 · RPE 8–9"}, {"name": "Do", "label": "Aktive Erholung", "sections": [{"type": "rest", "title": "Aktive Erholung", "details": ["Mobility Yoga 30 min", "Prehab Schulter"]}], "zone": "Z1–2 · RPE 3–4"}, {"name": "Fr", "label": "Kraft + WODs", "sections": [{"type": "strength", "title": "Kraft-Erhalt", "details": ["BSQ + FS je 3×5 @{sq}%"]}, {"type": "wod", "title": "Kurze WODs", "details": ["2× kurze WODs <10 min", "High Intensity · Open-Spezifik"]}], "zone": "Z4–5 · RPE 8–9"}, {"name": "Sa", "label": "Open WOD Tag", "sections": [{"type": "wod", "title": "Open WOD Tag", "details": ["Open WOD wie im Wettkampf", "Video aufnehmen · Score eintragen"], "note": "Taper: Volumen runter, Intensität hoch"}], "zone": "Z2–3 · RPE 5–6"}, {"name": "So", "label": "Erholung", "rest": true, "sections": [{"type": "rest", "title": "Aktive Erholung", "details": ["Spaziergang · Stretching"]}]}]];
 const PREHAB_PROG = {"Banded ER": ["Wk1-2: 3×10 leicht, langsam exzentrisch", "Wk3-4: 3×12 + 2s halten oben", "Wk5-6: 3×15 + leichtes Band", "Wk7+: 4×15 moderates Band"], "Banded IR": ["Wk1-2: 3×10 schmerzfrei", "Wk3-4: 3×12", "Wk5+: 3×15"], "Y-T-W": ["Wk1-2: 3×8 BW", "Wk3-4: 3×10", "Wk5+: 3×10 + leichte DB"], "Skapula PU": ["Wk1-2: 2×8 (protract/retract only)", "Wk3-4: 2×10 + 1s halten", "Wk5+: 3×12"], "Face Pulls": ["Wk1-2: 3×15 leichtes Band", "Wk3-4: 3×20", "Wk5+: 4×20"], "Sleeper Stretch": ["Wk1-2: 2×30s/Seite", "Wk3-4: 2×45s/Seite", "Wk5+: 3×45s/Seite"], "Eccentric ER": ["Wk3+: 3×15 — 4s exzentrisch — Eigengewicht", "Wk5+: 3×15 — leichtes Band", "Wk7+: 3×15 — moderates Band"], "Isometrie ER": ["Wk1-2: 3×30s gegen Wand", "Wk3-4: 3×40s", "Wk5+: 3×45s + leichter Widerstand"]};
 const BASE = {"bsq": 125, "fsq": 110, "dead": 130, "press": 52, "snatch": 66, "cj": 83, "pcl": 85, "hss": 65, "snatch_dl": 72.60000000000001};
 const START_DATE = new Date('2026-03-23');
@@ -1010,6 +1011,8 @@ function initTracker(){
   const wk = getTrackerWeek();
   document.getElementById('tn-block').textContent = wk.blockName;
   document.getElementById('tn-week').textContent = `Woche ${wk.weekNum} / ${wk.totalWeeks}`;
+  var focEl=document.getElementById('tn-focus');
+  if(focEl){var bt=["Schulter schonen \u00b7 Aerob-Base \u00b7 OL-Technik", "OL-Last \u00b7 Gymnastics-Volumen \u00b7 Kraft", "WOD-Kapazitaet \u00b7 Mixed Modal \u00b7 Amsterdam", "Open-Prep \u00b7 Taper \u00b7 CrossFit 2027"];focEl.textContent=bt[Math.min(wk.block,3)]||'';}
   document.getElementById('tn-date').textContent = wk.dateRange;
   document.getElementById('tn-block').style.color = wk.blockColor;
 
@@ -1030,133 +1033,112 @@ function renderTrackerDay(wk, dayIdx){
   const custom = getCustomDay(wk.block, wk.weekInBlock, dayIdx);
   const dayT = custom || wk.templates[dayIdx];
   const dk = wk._dateKey + '_d' + dayIdx;
-  const scores = L('score_' + dk, {});
-
-  // Zone info
-  const z = dayT && dayT.zone ? dayT.zone : '';
-  const zc = z.includes('Z4') ? 'var(--ro)' : z.includes('Z3') ? 'var(--am)' : 'var(--cy)';
-  const zb = z.includes('Z4') ? 'rgba(240,96,112,0.08)' : z.includes('Z3') ? 'rgba(240,168,64,0.08)' : 'rgba(96,212,240,0.08)';
-  const esys = z.includes('Z4') ? 'Threshold' : z.includes('Z3') ? 'Aerobic Power' : 'Aerobic Base';
-
-  // Pct + weights
-  const sq=wk.sqPct, pr=wk.prPct, dl=wk.dlPct, ol=wk.olPct;
+  const scores = L('score_'+dk, {});
+  const z = dayT&&dayT.zone ? dayT.zone : '';
+  const zc = z.includes('Z4')?'var(--ro)':z.includes('Z3')?'var(--am)':'var(--cy)';
+  const zb = z.includes('Z4')?'rgba(240,96,112,0.08)':z.includes('Z3')?'rgba(240,168,64,0.08)':'rgba(96,212,240,0.08)';
+  const esys = z.includes('Z4')?'Threshold':z.includes('Z3')?'Aerobic Power':'Aerobic Base';
+  const sq=wk.sqPct, prp=wk.prPct, dl=wk.dlPct, ol=wk.olPct;
   const ol_low=Math.max(ol-10,55), sq_low=Math.max(sq-8,60);
-  const fill = function(s){
-    return s
-      .replace(/\{ol\}/g,ol).replace(/\{ol_low\}/g,ol_low)
-      .replace(/\{sq\}/g,sq).replace(/\{sq_low\}/g,sq_low)
-      .replace(/\{pr\}/g,pr).replace(/\{dl\}/g,dl)
-      .replace(/\{bsq\}/g,Math.round(125*sq/100/2.5)*2.5)
-      .replace(/\{fsq\}/g,Math.round(110*sq_low/100/2.5)*2.5)
-      .replace(/\{dead\}/g,Math.round(130*dl/100/2.5)*2.5)
-      .replace(/\{press\}/g,Math.round(52*pr/100/2.5)*2.5)
-      .replace(/\{pcl\}/g,Math.round(85*ol_low/100/2.5)*2.5)
-      .replace(/\{cj\}/g,Math.round(83*ol/100/2.5)*2.5)
-      .replace(/\{hss\}/g,Math.round(65*ol_low/100/2.5)*2.5)
-      .replace(/\{snatch_dl\}/g,Math.round(73*ol/100/2.5)*2.5);
-  };
-
-  // Day header
+  function fill(s){
+    if(!s) return '';
+    return String(s)
+      .replace(/{ol}/g,ol).replace(/{ol_low}/g,ol_low)
+      .replace(/{sq}/g,sq).replace(/{sq_low}/g,sq_low)
+      .replace(/{pr}/g,prp).replace(/{dl}/g,dl)
+      .replace(/{bsq}/g,Math.round(125*sq/100/2.5)*2.5)
+      .replace(/{fsq}/g,Math.round(110*sq_low/100/2.5)*2.5)
+      .replace(/{dead}/g,Math.round(130*dl/100/2.5)*2.5)
+      .replace(/{press}/g,Math.round(52*prp/100/2.5)*2.5)
+      .replace(/{pcl}/g,Math.round(85*ol_low/100/2.5)*2.5)
+      .replace(/{cj}/g,Math.round(83*ol/100/2.5)*2.5)
+      .replace(/{hss}/g,Math.round(65*ol_low/100/2.5)*2.5)
+      .replace(/{snatch_dl}/g,Math.round(73*ol/100/2.5)*2.5);
+  }
   let html = '';
 
-  // Zone + Deload banner
-  if(z) html += '<div style="display:inline-flex;align-items:center;gap:6px;background:'+zb+';border:1px solid '+zc+'40;border-radius:20px;padding:4px 12px;font-size:9px;color:'+zc+';margin-bottom:10px;letter-spacing:.04em;"><span style="width:6px;height:6px;border-radius:50%;background:'+zc+';display:inline-block;"></span>'+z+' &middot; '+esys+'</div>';
-  if(wk.isDeload) html += '<div style="background:var(--ad);border:1px solid rgba(240,168,64,0.25);border-radius:8px;padding:8px 12px;margin-bottom:8px;font-size:10px;color:var(--am);">&#128260; Deload-Woche &mdash; 60% Volumen, gleiche Struktur</div>';
-  if(scores.sh >= 5) html += '<div style="background:var(--rd);border:1px solid rgba(240,96,112,0.3);border-radius:8px;padding:8px 12px;margin-bottom:8px;font-size:10px;color:var(--ro);">&#9888; Schulter '+scores.sh+'/10 &mdash; Overhead reduzieren &middot; Intensit&#228;t -20%</div>';
+  // Zone badge
+  if(z) html += '<div style="display:inline-flex;align-items:center;gap:6px;background:'+zb+';border:1px solid '+zc+'40;border-radius:20px;padding:4px 12px;font-size:9px;color:'+zc+';margin-bottom:10px;letter-spacing:.04em;"><span style="width:6px;height:6px;border-radius:50%;background:'+zc+';display:inline-block;flex-shrink:0;"></span>'+z+' &middot; '+esys+'</div>';
+  if(wk.isDeload) html += '<div style="background:var(--ad);border:1px solid rgba(240,168,64,0.25);border-radius:8px;padding:8px 12px;margin-bottom:8px;font-size:10px;color:var(--am);">&#128260; Deload &mdash; 60% Volumen</div>';
+  if(scores.sh>=5) html += '<div style="background:var(--rd);border:1px solid rgba(240,96,112,0.3);border-radius:8px;padding:8px 12px;margin-bottom:8px;font-size:10px;color:var(--ro);">&#9888; Schulter '+scores.sh+'/10 &mdash; Overhead reduzieren</div>';
 
-  if(!dayT || dayT.rest){
-    html += '<div style="background:var(--sf);border:1px solid var(--b);border-radius:10px;padding:2rem;text-align:center;"><div style="font-size:28px;margin-bottom:10px;">&#127769;</div><div style="font-size:14px;color:var(--tx);margin-bottom:6px;">Aktive Erholung</div><div style="font-size:11px;color:var(--mu);">Spazieren &middot; Stretching &middot; Mobility &middot; Meal Prep</div></div>';
+  if(!dayT||dayT.rest){
+    html += '<div style="background:var(--sf);border:1px solid var(--b);border-radius:10px;padding:2rem;text-align:center;"><div style="font-size:28px;margin-bottom:10px;">&#127769;</div><div style="font-size:14px;color:var(--tx);margin-bottom:6px;">Aktive Erholung</div><div style="font-size:11px;color:var(--mu);">Spazieren &middot; Stretching &middot; Meal Prep</div></div>';
     document.getElementById('tracker-content').innerHTML = html;
     return;
   }
 
-  // ── INNER TABS: Lifts | WOD | Score ──
-  const activeInnerTab = L('inner_tab_'+dk, 'lifts');
+  // Tabs: Lifts | WOD (no Score tab)
+  const activeTab = L('itab_'+dk, 'lifts');
   html += '<div style="display:flex;gap:4px;margin-bottom:12px;">';
-  ['lifts','wod','score'].forEach(function(tab){
-    const lbl = tab==='lifts'?'&#127947; Lifts':tab==='wod'?'&#9889; WOD':'&#128202; Score';
-    const active = activeInnerTab===tab;
-    html += '<button onclick="setInnerTab(\''+dk+'\',\''+tab+'\')" style="flex:1;padding:8px 6px;border-radius:8px;border:1px solid '+(active?'rgba(200,240,96,0.3)':'var(--b)')+';background:'+(active?'var(--ld)':'none')+';color:'+(active?'var(--lime)':'var(--mu2)')+';font-family:\'DM Mono\',monospace;font-size:10px;cursor:pointer;transition:all .12s;">'+lbl+'</button>';
+  [['lifts','&#127947; Lifts'],['wod','&#9889; WOD']].forEach(function(t){
+    const active = activeTab===t[0];
+    html += '<button onclick="setInnerTab(\''+dk+'\',\''+t[0]+'\')" style="flex:1;padding:8px 6px;border-radius:8px;border:1px solid '+(active?'rgba(200,240,96,0.3)':'var(--b)')+';background:'+(active?'var(--ld)':'none')+';color:'+(active?'var(--lime)':'var(--mu2)')+';font-family:\'DM Mono\',monospace;font-size:11px;cursor:pointer;transition:all .12s;">'+t[1]+'</button>';
   });
   html += '</div>';
 
-  // ── LIFTS TAB ──
-  if(activeInnerTab === 'lifts'){
-    const liftSecs = (dayT.sections||[]).filter(function(s){return s.type==='ol'||s.type==='strength';});
+  // === LIFTS TAB ===
+  if(activeTab==='lifts'){
+    const liftSecs=(dayT.sections||[]).filter(function(s){return s.type==='ol'||s.type==='strength';});
     if(!liftSecs.length){
-      html += '<div style="font-size:11px;color:var(--mu);padding:1rem 0;text-align:center;">Heute kein Kraft-Training geplant.<br><span style="font-size:10px;opacity:.6;">Wechsle zu WOD f&#252;r den heutigen Plan.</span></div>';
-    } else {
-      liftSecs.forEach(function(sec, si){
-        const ico = sec.type==='ol' ? '&#127947;' : '&#128170;';
-        const clr = sec.type==='ol' ? 'var(--cy)' : 'var(--cy)';
-        // Section header
-        html += '<div style="font-size:8px;letter-spacing:.12em;text-transform:uppercase;color:'+clr+';margin:12px 0 6px;display:flex;align-items:center;gap:6px;">'+ico+' '+sec.title+'<span style="flex:1;height:1px;background:var(--b);display:block;"></span></div>';
-        if(sec.note) html += '<div style="font-size:9px;color:var(--mu);margin-bottom:8px;padding:5px 10px;background:rgba(255,255,255,0.03);border-radius:6px;border-left:2px solid '+clr+';">'+fill(sec.note)+'</div>';
+      html += '<div style="font-size:11px;color:var(--mu);padding:2rem;text-align:center;">Heute kein Kraft-Training.<br><small style="font-size:9px;">Wechsle zum WOD-Tab.</small></div>';
+    }
+    liftSecs.forEach(function(sec,si){
+      const secClr = sec.type==='ol'?'var(--cy)':'var(--cy)';
+      const secIco = sec.type==='ol'?'&#127947;':'&#128170;';
+      html += '<div style="font-size:8px;letter-spacing:.12em;text-transform:uppercase;color:'+secClr+';margin:14px 0 7px;display:flex;align-items:center;gap:7px;">'+secIco+' '+sec.title+'<span style="flex:1;height:1px;background:var(--b);display:block;"></span></div>';
+      if(sec.note) html += '<div style="font-size:9px;color:var(--mu);margin-bottom:9px;padding:5px 10px;background:rgba(255,255,255,0.03);border-radius:6px;border-left:2px solid '+secClr+';">'+fill(sec.note)+'</div>';
+      (sec.details||[]).forEach(function(rawDet,di){
+        var det = fill(rawDet);
+        var hasX = /\d+[x\xd7]\d+/.test(det);
+        var hasPct = det.includes('%');
+        if(!hasX && !hasPct && !det.match(/^\d+ Sets/)){
+          html += '<div style="font-size:10px;color:var(--mu2);padding:2px 0 4px;">'+det+'</div>';
+          return;
+        }
+        var nm = det.match(/^([A-Za-z\xe4\xf6\xfc\xc4\xd6\xdc\xdf &+\/\-]+)/);
+        if(!nm||nm[1].trim().length<3){html += '<div style="font-size:10px;color:var(--mu2);padding:2px 0;">'+det+'</div>';return;}
+        var liftName = nm[1].trim();
+        var lk = dk+'_s'+si+'_d'+di;
+        var ld = L('lift_'+lk,{sets:[],done:false});
+        var prVal = L('pr_'+liftName,null);
+        var sm = det.match(/(\d+)[x\xd7]/);
+        var rm = det.match(/[x\xd7](\d+)/);
+        var pctM = det.match(/@(\d+)%/);
+        var kgM = det.match(/~([\d.]+)kg/);
+        var tempoM = det.match(/Tempo\s+([\dXx\-]+)/i);
+        var numSets = ld.sets.length||(sm?parseInt(sm[1]):3);
+        var sugReps = rm?parseInt(rm[1]):5;
+        var sugKg = kgM?parseFloat(kgM[1]):null;
+        var pct = pctM?parseInt(pctM[1]):null;
+        var tempo = tempoM?tempoM[1]:null;
+        var isDone = ld.done===true;
 
-        (sec.details||[]).forEach(function(det, di){
-          det = fill(det); // Apply % and kg substitution first
-          // Only process lines that look like lift prescriptions
-          const hasMultiplier = /\d+[x\xd7]\d+/.test(det) || /\d+ Sets/.test(det);
-          const hasPct = det.includes('%') || det.includes('kg') || det.includes('Sets');
-          if(!hasMultiplier && !hasPct) {
-            // It's a descriptor line, show as note
-            html += '<div style="font-size:10px;color:var(--mu2);padding:3px 0;">'+fill(det)+'</div>';
-            return;
-          }
+        html += '<div class="lift-block" style="opacity:'+(isDone?.65:1)+';border-color:'+(isDone?'rgba(200,240,96,0.2)':'var(--b)')+';" id="lb_'+si+'_'+di+'">';
+        html += '<div class="lift-block-hdr">';
+        html += '<span style="font-size:15px;">'+(sec.type==='ol'?'&#127947;':'&#128170;')+'</span>';
+        html += '<div style="flex:1;">';
+        html += '<div class="lift-block-name" style="'+(isDone?'text-decoration:line-through;color:var(--mu);':'')+'">'+liftName+'</div>';
+        var presc = '';
+        if(sm&&rm) presc += '<b>'+sm[1]+'&#215;'+rm[1]+'</b> ';
+        else if(sm) presc += '<b>'+sm[1]+' Sets</b> ';
+        if(pct) presc += '<span style="color:var(--mu2);">@'+pct+'%</span> ';
+        if(sugKg) presc += '<span style="color:var(--lime);font-size:12px;">&#8594;&nbsp;~'+sugKg+'kg</span> ';
+        if(tempo) presc += '<span style="color:var(--pu);">Tempo&nbsp;'+tempo+'</span>';
+        if(presc) html += '<div style="font-size:10px;color:var(--am);margin-top:2px;line-height:1.5;">'+presc+'</div>';
+        html += '</div>';
+        if(prVal) html += '<span class="lift-block-pr">PR: '+prVal+'kg</span>';
+        html += '<div class="set-chk'+(isDone?' done':'')+'" onclick="toggleLiftDone(\''+lk+'\')" style="margin-left:4px;width:32px;height:32px;border-radius:8px;font-size:14px;">'+(isDone?'&#10003;':'')+'</div>';
+        html += '</div>';
 
-          // Extract lift name
-          const nm = det.match(/^([A-Za-z\xe4\xf6\xfc\xc4\xd6\xdc\xdf &+\/\-]+)/);
-          if(!nm || nm[1].trim().length < 3) {
-            html += '<div style="font-size:10px;color:var(--mu2);padding:3px 0;">'+fill(det)+'</div>';
-            return;
-          }
-          const liftName = nm[1].trim();
-          const lk = dk+'_s'+si+'_d'+di;
-          const ld = L('lift_'+lk, {sets:[]});
-          const prVal = L('pr_'+liftName, null);
-
-          // Parse prescription
-          const sm = det.match(/(\d+)[x\xd7]/);
-          const rm = det.match(/[x\xd7](\d+)/);
-          const pctM = det.match(/@(\d+)%/);
-          const kgM = det.match(/~([\d.]+)kg/);
-          const numSets = ld.sets.length || (sm ? parseInt(sm[1]) : 3);
-          const sugReps = rm ? parseInt(rm[1]) : 5;
-          const sugKg = kgM ? parseFloat(kgM[1]) : null;
-          const pct = pctM ? parseInt(pctM[1]) : null;
-
-          html += '<div class="lift-block" id="lb_'+si+'_'+di+'">';
-          html += '<div class="lift-block-hdr">';
-          html += '<span style="font-size:15px;">'+ico+'</span>';
-          html += '<div style="flex:1;">';
-          // Parse tempo e.g. "Tempo 3-1-X-1"
-          var tempoM = det.match(/Tempo\s+(\S+)/);
-          var tempo = tempoM ? tempoM[1] : null;
-          // Build prescription string: e.g. "4×6 @72% ~90kg Tempo 3-1-X"
-          var prescription = '';
-          if(sm && rm) prescription += sm[1]+'&#215;'+rm[1]+' ';
-          else if(sm) prescription += sm[1]+' Sets ';
-          if(pct) prescription += '@'+pct+'% ';
-          if(sugKg) prescription += '&#8594; <b style="font-size:12px;color:var(--lime);">~'+sugKg+'kg</b> ';
-          if(tempo) prescription += '<span style="color:var(--pu);">Tempo '+tempo+'</span>';
-
-          html += '<div style="flex:1;">';
-          html += '<div class="lift-block-name">'+liftName+'</div>';
-          if(prescription){
-            html += '<div style="font-size:10px;color:var(--am);margin-top:2px;line-height:1.5;">'+prescription+'</div>';
-          }
-          html += '</div>';
-          if(prVal) html += '<span class="lift-block-pr">PR: '+prVal+'kg</span>';
-          html += '</div>';
-
-          // Sets grid
-          html += '<div style="display:grid;grid-template-columns:28px 1fr 1fr 30px;gap:5px;padding:4px 12px;font-size:8px;color:var(--mu);letter-spacing:.08em;text-transform:uppercase;"><span></span><span>kg</span><span>reps</span><span></span></div>';
+        if(!isDone){
+          html += '<div style="display:grid;grid-template-columns:26px 1fr 1fr 28px;gap:5px;padding:3px 12px;font-size:8px;color:var(--mu);letter-spacing:.08em;text-transform:uppercase;"><span></span><span>kg</span><span>reps</span><span></span></div>';
           html += '<div class="lift-sets">';
-          for(var i2=0; i2<numSets; i2++){
-            var s = ld.sets[i2] || {kg:'', reps:'', done:false};
-            var isP = s.kg && prVal && parseFloat(s.kg) > prVal;
+          for(var i2=0;i2<numSets;i2++){
+            var s=ld.sets[i2]||{kg:'',reps:'',done:false};
+            var isP=s.kg&&prVal&&parseFloat(s.kg)>prVal;
             html += '<div class="set-row-s">';
-            html += '<div class="set-num">'+( i2+1)+'</div>';
+            html += '<div class="set-num">'+(i2+1)+'</div>';
             html += '<input class="set-inp'+(isP?' pr-set':'')+'" type="number" step="0.5" placeholder="'+(sugKg||'kg')+'" value="'+(s.kg||'')+'" onchange="updSet(\''+lk+'\','+i2+',\'kg\',this.value)">';
             html += '<input class="set-inp" type="number" placeholder="'+sugReps+'" value="'+(s.reps||'')+'" onchange="updSet(\''+lk+'\','+i2+',\'reps\',this.value)">';
             html += '<div class="set-chk'+(s.done?' done':'')+'" onclick="togSetDone(\''+lk+'\','+i2+')">'+(s.done?'&#10003;':'')+'</div>';
@@ -1166,20 +1148,22 @@ function renderTrackerDay(wk, dayIdx){
           html += '<div class="lift-footer">';
           html += '<button class="add-set-b" onclick="addSet2(\''+lk+'\')">+ Set</button>';
           html += '<button class="save-lift-b" onclick="saveLift2(\''+lk+'\',\''+liftName+'\','+numSets+')">&#128190; Speichern</button>';
-          html += '<button class="skip-lift-b" onclick="showSkip2(\'skip_'+lk.replace(/[^a-z0-9]/gi,'_')+'\',' + "'" + liftName + "'" + ')">Skip</button>';
+          var skipId = 'skip_'+lk.replace(/[^a-z0-9]/gi,'_');
+          html += '<button class="skip-lift-b" onclick="showSkip2(\''+skipId+'\',\''+liftName+'\')">Skip</button>';
           html += '</div>';
-          html += '<div style="display:none;" id="skip_'+lk.replace(/[^a-z0-9]/gi,'_')+'" class="adapt-note"></div>';
-          html += '</div>';
-        });
+          html += '<div style="display:none;" id="'+skipId+'" class="adapt-note"></div>';
+        }
+        html += '</div>';
       });
-    }
+    });
 
-    // History at bottom of lifts tab
-    var hist = L('hist4',[]).filter(function(h){return h.lift;}).slice(-6).reverse();
+    // History
+    var hist=L('hist4',[]).filter(function(h){return h.lift;}).slice(-6).reverse();
     if(hist.length){
       html += '<div class="st" style="margin-top:1.25rem;">Verlauf</div>';
-      html += '<table style="width:100%;border-collapse:collapse;font-size:10px;">';
-      html += '<thead><tr><th style="text-align:left;color:var(--mu);font-weight:400;padding:3px 0;border-bottom:1px solid var(--b);font-size:9px;">Datum</th><th style="text-align:left;color:var(--mu);font-weight:400;padding:3px 0;border-bottom:1px solid var(--b);font-size:9px;">Lift</th><th style="text-align:right;color:var(--mu);font-weight:400;padding:3px 0;border-bottom:1px solid var(--b);font-size:9px;">Ergebnis</th></tr></thead><tbody>';
+      html += '<table style="width:100%;border-collapse:collapse;font-size:10px;"><thead><tr>';
+      ['Datum','Lift','Ergebnis'].forEach(function(h2){html+='<th style="text-align:left;color:var(--mu);font-weight:400;padding:3px 0;border-bottom:1px solid var(--b);font-size:9px;">'+h2+'</th>';});
+      html += '</tr></thead><tbody>';
       hist.forEach(function(h){
         html += '<tr><td style="padding:4px 0;border-bottom:1px solid rgba(255,255,255,0.04);color:var(--mu2);">'+h.date+'</td>';
         html += '<td style="padding:4px 0;border-bottom:1px solid rgba(255,255,255,0.04);color:var(--tx);">'+h.lift+'</td>';
@@ -1189,107 +1173,82 @@ function renderTrackerDay(wk, dayIdx){
     }
   }
 
-  // ── WOD TAB ──
-  if(activeInnerTab === 'wod'){
-    // Check for weekly WOD variation
-    if(dayT.wod_weeks && dayT.wod_weeks.length > 0){
-      const wi = Math.min(wk.weekInBlock, dayT.wod_weeks.length-1);
-      const ww = dayT.wod_weeks[wi];
-      const zClr2 = z.includes('Z4')?'var(--ro)':z.includes('Z3')?'var(--am)':'var(--cy)';
-      html += '<div style="background:rgba(255,255,255,0.02);border:1px solid var(--b);border-radius:10px;padding:12px 14px;margin-bottom:8px;">';
-      html += '<div style="font-size:9px;letter-spacing:.1em;text-transform:uppercase;color:'+zClr2+';margin-bottom:8px;display:flex;align-items:center;gap:6px;">&#9889; '+ww.title+'<span style="margin-left:auto;font-size:9px;color:var(--mu);letter-spacing:0;text-transform:none;">Wk'+(wk.weekNum)+'</span></div>';
-      ww.lines.forEach(function(l){
-        const isMajor = /^For Time|^AMRAP|^EMOM|^\d+×|^Every|^Buy-In/.test(l);
-        html += '<div style="font-size:'+(isMajor?'12':'11')+'px;color:'+(isMajor?'var(--tx)':'var(--mu)')+';padding:2px 0;line-height:1.8;">'+l+'</div>';
+  // === WOD TAB ===
+  if(activeTab==='wod'){
+    // Weekly WOD
+    if(dayT.wod_weeks&&dayT.wod_weeks.length>0){
+      var wi=Math.min(wk.weekInBlock,dayT.wod_weeks.length-1);
+      var ww=dayT.wod_weeks[wi];
+      var wodDoneKey=dk+'_wod_done';
+      var wodDone=L(wodDoneKey,false);
+      html += '<div style="background:rgba(255,255,255,0.02);border:1px solid '+(wodDone?'rgba(200,240,96,0.25)':'var(--b)')+';border-radius:10px;padding:12px 14px;margin-bottom:8px;">';
+      html += '<div style="display:flex;align-items:flex-start;justify-content:space-between;margin-bottom:8px;gap:8px;">';
+      html += '<div><div style="font-size:9px;letter-spacing:.1em;text-transform:uppercase;color:'+zc+';margin-bottom:3px;">&#9889; WOD &mdash; Woche '+wk.weekNum+'</div>';
+      html += '<div style="font-size:12px;color:var(--tx);">'+ww.title+'</div></div>';
+      html += '<div class="set-chk'+(wodDone?' done':'')+'" onclick="toggleWodDone(\''+wodDoneKey+'\')" style="width:32px;height:32px;min-width:32px;border-radius:8px;font-size:14px;">'+(wodDone?'&#10003;':'')+'</div>';
+      html += '</div>';
+      ww.lines.forEach(function(l,li){
+        if(l==='--'||l==='---'||l==='&#8212;'){html+='<div style="height:1px;background:var(--b);margin:6px 0;"></div>';return;}
+        var isMajor=/^For Time|^AMRAP|^EMOM|^Every|^Buy-In|^\d+ Rounds|^3 Round|^4 Round|^5 Round/.test(l);
+        var lineKey=wodDoneKey+'_l'+li;
+        var lc=L(lineKey,false);
+        html += '<div style="display:flex;align-items:flex-start;gap:7px;padding:3px 0;">';
+        html += '<div class="set-chk'+(lc?' done':'')+'" onclick="toggleLineDone(\''+lineKey+'\')" style="width:18px;height:18px;min-width:18px;border-radius:4px;margin-top:2px;font-size:9px;">'+(lc?'&#10003;':'')+'</div>';
+        html += '<div style="font-size:'+(isMajor?'12':'11')+'px;color:'+(lc?'var(--mu)':isMajor?'var(--tx)':'var(--mu)')+';'+(lc?'text-decoration:line-through;':'')+'line-height:1.7;">'+l+'</div>';
+        html += '</div>';
       });
-      if(ww.note) html += '<div style="font-size:9px;color:'+zClr2+';margin-top:8px;padding:6px 10px;background:rgba(255,255,255,0.03);border-radius:6px;border-left:2px solid '+zClr2+';">&#8594; '+ww.note+'</div>';
+      if(ww.note) html += '<div style="font-size:9px;color:'+zc+';margin-top:8px;padding:6px 10px;background:rgba(255,255,255,0.03);border-radius:6px;border-left:2px solid '+zc+';">&#8594; '+ww.note+'</div>';
       html += '</div>';
     }
-    const nonLiftSecs = (dayT.sections||[]).filter(function(s){return s.type!=='ol'&&s.type!=='strength'&&s.type!=='wod';});
-    if(!nonLiftSecs.length && !dayT.wod_weeks){
-      html += '<div style="font-size:11px;color:var(--mu);padding:1rem 0;text-align:center;">Kein WOD heute geplant.</div>';
-    } else {
-      nonLiftSecs.forEach(function(sec){
-        const icons={wod:'&#9889;',cardio:'&#127939;',gymnastics:'&#129336;',prehab:'&#129306;',rest:'&#127769;'};
-        const colors={wod:'var(--am)',cardio:'var(--am)',gymnastics:'var(--pu)',prehab:'var(--lime)',rest:'var(--mu)'};
-        const ico = icons[sec.type]||'&#9889;';
-        const clr = colors[sec.type]||'var(--am)';
-        const bg = sec.type==='wod'?'rgba(240,168,64,0.06)':sec.type==='gymnastics'?'rgba(168,128,240,0.06)':sec.type==='prehab'?'rgba(200,240,96,0.06)':'rgba(255,255,255,0.02)';
-        html += '<div style="background:'+bg+';border:1px solid var(--b);border-radius:10px;padding:12px 14px;margin-bottom:8px;">';
-        html += '<div style="font-size:9px;letter-spacing:.1em;text-transform:uppercase;color:'+clr+';margin-bottom:8px;display:flex;align-items:center;gap:6px;">'+ico+' '+sec.title;
-        if(sec.type==='wod' || sec.type==='cardio'){
-          html += '<span style="margin-left:auto;font-size:9px;color:var(--mu);letter-spacing:0;text-transform:none;">'+z+'</span>';
-        }
-        html += '</div>';
-        (sec.details||[]).forEach(function(d){
-          const filled = fill(d);
-          const isHeader = filled.match(/^\d+ Runden|^AMRAP|^EMOM|^For Time|^Min \d+/i);
-          html += '<div style="font-size:'+(isHeader?'12':'11')+'px;color:'+(isHeader?'var(--tx)':'var(--mu)')+';padding:2px 0;line-height:1.8;'+(isHeader?'font-weight:400;':'')+'">'+filled+'</div>';
-        });
-        if(sec.note){
-          html += '<div style="font-size:9px;color:'+clr+';margin-top:8px;padding:6px 10px;background:rgba(255,255,255,0.03);border-radius:6px;border-left:2px solid '+clr+';">&#8594; '+fill(sec.note)+'</div>';
-        }
+
+    // Other sections (cardio, gymnastics, prehab)
+    var otherSecs=(dayT.sections||[]).filter(function(s){return ['ol','strength','wod'].indexOf(s.type)<0;});
+    otherSecs.forEach(function(sec,osi){
+      var ico={cardio:'&#127939;',gymnastics:'&#129336;',prehab:'&#129306;'}[sec.type]||'&#9889;';
+      var clr={cardio:'var(--am)',gymnastics:'var(--pu)',prehab:'var(--lime)'}[sec.type]||'var(--am)';
+      var bg={cardio:'rgba(240,168,64,0.05)',gymnastics:'rgba(168,128,240,0.05)',prehab:'rgba(200,240,96,0.05)'}[sec.type]||'rgba(255,255,255,0.02)';
+      var secDoneKey=dk+'_sec_'+osi;
+      var secDone=L(secDoneKey,false);
+      html += '<div style="background:'+bg+';border:1px solid '+(secDone?'rgba(200,240,96,0.2)':'var(--b)')+';border-radius:10px;padding:12px 14px;margin-bottom:8px;">';
+      html += '<div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:8px;">';
+      html += '<div style="font-size:9px;letter-spacing:.1em;text-transform:uppercase;color:'+clr+';">'+ico+' '+sec.title+'</div>';
+      html += '<div class="set-chk'+(secDone?' done':'')+'" onclick="toggleSecDone(\''+secDoneKey+'\')" style="width:32px;height:32px;border-radius:8px;font-size:14px;">'+(secDone?'&#10003;':'')+'</div>';
+      html += '</div>';
+      (sec.details||[]).forEach(function(d,di){
+        var lineKey=secDoneKey+'_l'+di;
+        var lc=L(lineKey,false);
+        html += '<div style="display:flex;align-items:flex-start;gap:7px;padding:3px 0;">';
+        html += '<div class="set-chk'+(lc?' done':'')+'" onclick="toggleLineDone(\''+lineKey+'\')" style="width:18px;height:18px;min-width:18px;border-radius:4px;margin-top:2px;font-size:9px;">'+(lc?'&#10003;':'')+'</div>';
+        html += '<div style="font-size:11px;color:'+(lc?'var(--mu)':'var(--mu)')+';'+(lc?'text-decoration:line-through;':'')+'line-height:1.7;">'+fill(d)+'</div>';
         html += '</div>';
       });
-    }
+      if(sec.note) html += '<div style="font-size:9px;color:'+clr+';margin-top:8px;padding:6px 10px;background:rgba(255,255,255,0.03);border-radius:6px;border-left:2px solid '+clr+';">&#8594; '+fill(sec.note)+'</div>';
+      html += '</div>';
+    });
 
-    // Inline score below WOD
-    var scoreDiv = document.createElement('div');
-    scoreDiv.style.cssText = 'background:var(--sf2);border:1px solid var(--b);border-radius:9px;padding:11px 13px;margin-top:4px;';
-    var scoreLbl = '<div style="font-size:9px;letter-spacing:.1em;text-transform:uppercase;color:var(--mu);margin-bottom:8px;">Score eintragen</div>';
-    var scoreWodRow = '<div style="margin-bottom:8px;"><div style="font-size:8px;color:var(--mu);margin-bottom:2px;letter-spacing:.07em;text-transform:uppercase;">WOD Score</div><input id="inline-wod-score" placeholder="Zeit / Runden / Reps..." style="background:var(--sf);border:1px solid var(--b);border-radius:6px;color:var(--tx);font-family:DM Mono,monospace;font-size:11px;padding:6px 9px;width:100%;outline:none;"></div>';
-    var scoreNoteRow = '<div style="margin-bottom:8px;"><div style="font-size:8px;color:var(--mu);margin-bottom:2px;letter-spacing:.07em;text-transform:uppercase;">Notiz</div><textarea id="inline-wod-note" rows="2" placeholder="Wie war es?" style="background:var(--sf);border:1px solid var(--b);border-radius:6px;color:var(--tx);font-family:DM Mono,monospace;font-size:11px;padding:6px 9px;width:100%;outline:none;resize:vertical;"></textarea></div>';
-    var shRow = '<div id="sh-dots-inline" style="display:flex;gap:5px;align-items:center;flex-wrap:wrap;"><span style="font-size:10px;color:var(--mu);margin-right:4px;">Schulter:</span>';
-    for(var ns=0;ns<=10;ns++){var ss2=scores.sh==ns;var cs2=ss2?(ns<=3?'sg':ns<=5?'sa':'sr'):'';shRow+='<button class="sh-d '+cs2+'" data-sh="'+ns+'">'+ns+'</button>';}
-    shRow += '</div>';
-    scoreDiv.innerHTML = scoreLbl + scoreWodRow + scoreNoteRow + shRow;
-    html += scoreDiv.outerHTML;
-  }
-
-  // ── SCORE TAB ──
-  if(activeInnerTab === 'score'){
-    html += '<div style="background:var(--sf);border:1px solid var(--b);border-radius:10px;padding:14px;margin-bottom:10px;">';
-    html += '<div style="font-size:10px;color:var(--mu);letter-spacing:.09em;text-transform:uppercase;margin-bottom:12px;">&#128202; Session Score</div>';
-
-    // Schulter
-    html += '<div style="margin-bottom:12px;"><div style="font-size:10px;color:var(--mu);margin-bottom:6px;">Schulter (0&ndash;10)</div><div style="display:flex;gap:3px;flex-wrap:wrap;">';
-    for(var n=0;n<=10;n++){var s2=scores.sh==n;var c2=s2?(n<=3?'sg':n<=5?'sa':'sr'):'';html+='<button class="sh-d '+c2+'" onclick="setScoreNew(\''+dk+'\',\'sh\','+n+')">'+n+'</button>';}
+    // Inline score
+    html += '<div style="background:var(--sf2);border:1px solid var(--b);border-radius:9px;padding:11px 13px;margin-top:4px;">';
+    html += '<div style="font-size:9px;letter-spacing:.1em;text-transform:uppercase;color:var(--mu);margin-bottom:8px;">Score</div>';
+    html += '<div style="margin-bottom:8px;"><div style="font-size:8px;color:var(--mu);margin-bottom:2px;letter-spacing:.06em;text-transform:uppercase;">WOD Score</div>';
+    html += '<input id="wod-score-inp" placeholder="Zeit / Runden / Reps..." style="background:var(--sf);border:1px solid var(--b);border-radius:6px;color:var(--tx);font-family:\'DM Mono\',monospace;font-size:11px;padding:6px 9px;width:100%;outline:none;"></div>';
+    html += '<div style="margin-bottom:8px;"><div style="font-size:8px;color:var(--mu);margin-bottom:2px;letter-spacing:.06em;text-transform:uppercase;">Notiz</div>';
+    html += '<textarea id="wod-note-inp" rows="2" placeholder="Wie war es?" style="background:var(--sf);border:1px solid var(--b);border-radius:6px;color:var(--tx);font-family:\'DM Mono\',monospace;font-size:11px;padding:6px 9px;width:100%;outline:none;resize:vertical;"></textarea></div>';
+    html += '<div style="display:flex;gap:5px;align-items:center;flex-wrap:wrap;"><span style="font-size:10px;color:var(--mu);flex-shrink:0;">Schulter:</span>';
+    for(var ns=0;ns<=10;ns++){var ss=scores.sh==ns;var cs=ss?(ns<=3?'sg':ns<=5?'sa':'sr'):'';html+='<button class="sh-d '+cs+'" data-sh="'+ns+'">'+ns+'</button>';}
     html += '</div></div>';
-
-    // RPE
-    html += '<div style="margin-bottom:12px;"><div style="font-size:10px;color:var(--mu);margin-bottom:6px;">RPE (1&ndash;10)</div><div style="display:flex;gap:3px;flex-wrap:wrap;">';
-    for(var n=1;n<=10;n++){var s3=scores.rpe==n;var c3=s3?(n<=5?'sg':n<=7?'sa':'sr'):'';html+='<button class="sh-d '+c3+'" onclick="setScoreNew(\''+dk+'\',\'rpe\','+n+')">'+n+'</button>';}
-    html += '</div></div>';
-
-    // WOD Score
-    html += '<div style="margin-bottom:12px;"><div class="form-lbl">WOD Score</div><input placeholder="Zeit / Runden / Reps / Gewicht..." value="'+(scores.wod||'')+'" onchange="setScoreNew(\''+dk+'\',\'wod\',this.value)"></div>';
-
-    // Notes
-    html += '<div style="margin-bottom:12px;"><div class="form-lbl">Notizen</div><textarea rows="3" placeholder="Was war gut? Was war schwer? Technique-Cues..." onchange="setScoreNew(\''+dk+'\',\'notes\',this.value)">'+(scores.notes||'')+'</textarea></div>';
-
-    // Energy system note
-    if(z){
-      html += '<div style="font-size:9px;color:'+zc+';background:'+zb+';border-radius:6px;padding:7px 10px;line-height:1.6;">'+z+' &middot; '+esys+'<br><span style="opacity:.7;">48h Recovery nach Z4&ndash;5 &middot; Z1&ndash;2 so viel wie m&ouml;glich</span></div>';
-    }
-    html += '</div>';
-
-    // KI Export prompt
-    html += '<div style="background:linear-gradient(135deg,rgba(168,128,240,0.08),rgba(96,212,240,0.08));border:1px solid rgba(168,128,240,0.2);border-radius:10px;padding:12px 14px;">';
-    html += '<div style="font-size:10px;color:var(--pu);margin-bottom:8px;">&#9889; KI-Analyse nach dem Training</div>';
-    html += '<div style="font-size:10px;color:var(--mu);margin-bottom:10px;line-height:1.6;">Speichere deinen Score, dann exportiere die Woche f&#252;r eine KI-Analyse &rarr; bekomme konkrete Anpassungen f&#252;r die n&#228;chsten Tage.</div>';
-    html += '<button class="btn btn-ai" onclick="openAIExport()" style="width:100%;">&#9889; KI-Wochenanalyse starten</button>';
-    html += '</div>';
   }
 
   document.getElementById('tracker-content').innerHTML = html;
-  // Restore saved values for inline inputs
-  var wi = document.getElementById('inline-wod-score');
-  var ni = document.getElementById('inline-wod-note');
-  if(wi) { wi.value = scores.wod||''; wi.addEventListener('change', function(){setScoreNew(dk,'wod',this.value);}); }
-  var shD = document.getElementById('sh-dots-inline');
-  if(shD) { shD.addEventListener('click', function(e){ var b=e.target.closest('[data-sh]'); if(b) setScoreNew(dk,'sh',parseInt(b.dataset.sh)); }); }
-  if(ni) { ni.value = scores.notes||''; ni.addEventListener('change', function(){setScoreNew(dk,'notes',this.value);}); }
+
+  // Post-render hooks
+  var wi2=document.getElementById('wod-score-inp');
+  var ni2=document.getElementById('wod-note-inp');
+  if(wi2){wi2.value=scores.wod||'';wi2.addEventListener('change',function(){setScoreNew(dk,'wod',this.value);});}
+  if(ni2){ni2.value=scores.notes||'';ni2.addEventListener('change',function(){setScoreNew(dk,'notes',this.value);});}
+  var shPar=document.querySelector('.sh-d[data-sh]');
+  if(shPar&&shPar.parentNode){shPar.parentNode.addEventListener('click',function(e){var b=e.target.closest('[data-sh]');if(b)setScoreNew(dk,'sh',parseInt(b.dataset.sh));});}
 }
+
 
 function saveSet(lk,si,type,val){const d=L('td_'+lk,{});d[type+si]=val;S('td_'+lk,d);}
 function saveLift(lk,sets,name){
@@ -2281,6 +2240,12 @@ function setInnerTab(dk, tab){
   S('inner_tab_'+dk, tab);
   renderTrackerDay(getTrackerWeek(), activeTrackerDay);
 }
+
+
+function toggleLiftDone(lk){var d=L('lift_'+lk,{sets:[],done:false});d.done=!d.done;S('lift_'+lk,d);renderTrackerDay(getTrackerWeek(),activeTrackerDay);}
+function toggleWodDone(key){S(key,!L(key,false));renderTrackerDay(getTrackerWeek(),activeTrackerDay);}
+function toggleSecDone(key){S(key,!L(key,false));renderTrackerDay(getTrackerWeek(),activeTrackerDay);}
+function toggleLineDone(key){S(key,!L(key,false));renderTrackerDay(getTrackerWeek(),activeTrackerDay);}
 
 </script>
 </body>
